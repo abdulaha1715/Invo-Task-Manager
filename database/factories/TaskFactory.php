@@ -17,11 +17,11 @@ class TaskFactory extends Factory
     {
         $price = [200, 300, 500, 800];
         return [
-            'name' => $this->faker->sentence(),
+            'name'        => $this->faker->sentence(),
             'description' => $this->faker->sentences(rand(3,5), true),
-            'price' => $price[rand(0, 3)],
-            'client_id' => Client::all()->random()->id,
-            'user_id' => User::all()->random()->id,
+            'price'       => $price[rand(0, 3)],
+            'client_id'   => Client::all()->random()->id,
+            'user_id'     => User::all()->random()->id,
         ];
     }
 }
