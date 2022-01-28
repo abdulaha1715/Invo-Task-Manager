@@ -14,7 +14,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return view('client.index');
+        $data = Client::all();
+        // dd($clients);
+        return view('client.index')->with('clients', $data);
     }
 
     /**
