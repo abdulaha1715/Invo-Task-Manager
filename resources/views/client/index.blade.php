@@ -13,11 +13,11 @@
                         <thead>
                             <tr>
                                 <th class="border py-2 w-8">Id</th>
-                                <th class="border py-2 w-32">Thumbnail</th>
+                                <th class="border py-2 w-32">Avatar</th>
                                 <th class="border py-2">Name</th>
                                 <th class="border py-2">Username</th>
-                                <th class="border py-2">Email</th>
                                 <th class="border py-2">Phone</th>
+                                <th class="border py-2">Email</th>
                                 <th class="border py-2">Country</th>
                                 <th class="border py-2">Action</th>
                             </tr>
