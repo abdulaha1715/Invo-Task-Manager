@@ -89,7 +89,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('client.edit')->with(['client' => $client]);
     }
 
     /**
