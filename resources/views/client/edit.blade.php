@@ -14,6 +14,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form action="{{ route('client.update', $client->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
 
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
@@ -104,7 +105,7 @@
                         </div>
 
                         <div class="mt-6">
-                            <button type="submit" class="px-8 py-2 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Create</button>
+                            <button type="submit" class="px-8 py-2 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Update</button>
                         </div>
 
                     </form>

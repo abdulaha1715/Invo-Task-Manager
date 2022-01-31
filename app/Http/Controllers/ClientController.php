@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -101,7 +102,38 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $request->validate([
+            'name'     => ['required', 'max:255', 'string'],
+            'username' => ['required', 'max:255', 'string'],
+            'email'    => ['required', 'max:255', 'string', 'email'],
+            'phone'    => ['max:255', 'string'],
+            'country'  => ['max:255', 'string'],
+            'avatar'   => ['image'],
+        ]);
+
+        $avatar = $client->avatar;
+
+        if ( !empty($request->file('avatar')) ) {
+
+            Storage::delete('public/uploads/'.$avatar);
+
+            $avatar = time() . '-' . $request->file('avatar')->getClientOriginalName();
+
+            $request->file('avatar')->storeAs('public/uploads', $avatar);
+        }
+
+        Client::find($client->id)->update([
+            'name'     => $request->name,
+            'username' => $request->username,
+            'email'    => $request->email,
+            'phone'    => $request->phone,
+            'country'  => $request->country,
+            'avatar'   => $avatar,
+            'status'   => $request->status,
+        ]);
+
+        return redirect()->route('client.index')->with('success', "Client Updated");
+
     }
 
     /**
