@@ -18,7 +18,7 @@
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
                                 <label for="name" class="formLabel">Name</label>
-                                <input type="text" name="text" class="formInput" value="{{ old('name') }}">
+                                <input type="text" name="name" class="formInput" value="{{ old('name') }}">
 
                                 @error('name')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
