@@ -144,6 +144,9 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        Storage::delete('public/uploads/'.$client->avatar);
+
+        $client->delete();
+        return redirect()->route('client.index')->with('success', "Client Deleted");
     }
 }

@@ -26,8 +26,8 @@
                                 <th class="border py-2 w-32">Avatar</th>
                                 <th class="border py-2">Name</th>
                                 <th class="border py-2">Username</th>
-                                <th class="border py-2">Phone</th>
                                 <th class="border py-2">Email</th>
+                                <th class="border py-2">Phone</th>
                                 <th class="border py-2">Country</th>
                                 <th class="border py-2">Action</th>
                             </tr>
@@ -57,17 +57,23 @@
                                         {{ $client->username }}
                                     </td>
                                     <td class="border py-2 text-center">
-                                        {{ $client->phone }}
+                                        {{ $client->email }}
                                     </td>
                                     <td class="border py-2 text-center">
-                                        {{ $client->email }}
+                                        {{ $client->phone }}
                                     </td>
                                     <td class="border py-2 text-center">
                                         {{ $client->country }}
                                     </td>
                                     <td class="border py-2 text-center">
-                                        <a href="{{ route('client.edit', $client->id) }}" class="text-white bg-emerald-800 px-3 py-1">Edit</a>
-                                        <a href="#" class="text-white bg-red-800 px-3 py-1">Delete</a>
+                                        <div class="flex justify-center">
+                                            <a href="{{ route('client.edit', $client->id) }}" class="text-white bg-emerald-800 px-3 py-1 mr-2">Edit</a>
+                                            <form action="{{ route('client.destroy', $client->id) }}" method="POST" onsubmit="return confirm('Do you want to delete?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-white bg-red-800 px-3 py-1">Delete</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
