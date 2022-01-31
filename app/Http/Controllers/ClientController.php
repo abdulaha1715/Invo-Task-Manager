@@ -51,7 +51,7 @@ class ClientController extends Controller
 
         $avatar = null;
         if (!empty($request->file('avatar'))) {
-            $avatar = $request->file('avatar')->getClientOriginalName() . '-' . time();
+            $avatar = time() . '-' . $request->file('avatar')->getClientOriginalName();
             $request->file('avatar')->storeAs('public/uploads', $avatar);
         }
 
