@@ -32,7 +32,7 @@
                                         {{ $client->id }}
                                     </td>
                                     <td class="border py-2 w-32 text-center">
-                                        <img src="{{ $client->thumbnail }}" width="80" class="mx-auto rounded" alt="">
+                                        <img src="{{ $client->avatar }}" width="80" class="mx-auto rounded" alt="">
                                     </td>
                                     <td class="border py-2 text-center">
                                         {{ $client->name }}

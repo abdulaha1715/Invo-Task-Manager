@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="flex mt-6">
@@ -58,7 +58,7 @@
                         <div class="flex mt-6 justify-between">
                             <div class="flex-1">
                                 <label for="country" class="formLabel">Country</label>
-                                <input type="email" name="country" class="formInput" value="{{ old('country') }}">
+                                <input type="text" name="country" class="formInput" value="{{ old('country') }}">
 
                                 @error('country')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -67,7 +67,8 @@
 
                             <div class="flex-1 mx-5">
                                 <label for="avatar" class="formLabel">Avatar</label>
-                                <input type="file" name="avatar" class="formInput" value="{{ old('avatar') }}">
+                                <label for="avatar" class="formLabel border-2 rounded-md border-dashed border-emerald-700 py-4 text-center">Click
+                                    to upload image</label>
 
                                 @error('avatar')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
