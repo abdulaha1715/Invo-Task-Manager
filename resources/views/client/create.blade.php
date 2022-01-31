@@ -69,6 +69,7 @@
                                 <label for="avatar" class="formLabel">Avatar</label>
                                 <label for="avatar" class="formLabel border-2 rounded-md border-dashed border-emerald-700 py-4 text-center">Click
                                     to upload image</label>
+                                <input type="file" name="avatar" id="avatar" class="formInput hidden">
 
                                 @error('avatar')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -78,9 +79,9 @@
                             <div class="flex-1">
                                 <label for="status" class="formLabel">Status</label>
                                 <select name="status" id="status" class="formInput">
-                                    <option value="none">Select Status</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                    <option value="none" {{ old('status') == 'none' ? 'selected' : '' }}>Select Status</option>
+                                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                 </select>
 
                                 @error('status')

@@ -49,24 +49,23 @@ class ClientController extends Controller
             'status'   => ['not_in:none', 'string'],
         ]);
 
-        // Client::create([
-        //     'name'      => $request->name,
-        //     'username'  => $request->username,
-        //     'email'     => $request->email,
-        //     'phone'     => $request->phone,
-        //     'country'   => $request->country,
-        //     // 'avatar' => $avatar,
-        //     'status'    => $request->status,
-        // ]);
-Client::create([
-            'name'  => $request->name,
-            'username'  => $request->username,
-            'email'  => $request->email,
-            'phone'  => $request->phone,
+        $avatar = null;
+        if (!empty($request->file('avatar'))) {
+            $avatar = $request->file('avatar')->getClientOriginalName() . '-' . time();
+            $request->file('avatar')->storeAs('public/uploads', $avatar);
+        }
+
+        Client::create([
+            'name'     => $request->name,
+            'username' => $request->username,
+            'email'    => $request->email,
+            'phone'    => $request->phone,
             'country'  => $request->country,
-            // 'thumbnail'  => $thumb,
-            'status'  => $request->status,
+            'avatar'   => $avatar,
+            'status'   => $request->status,
         ]);
+
+
         return redirect()->route('client.index');
 
     }
