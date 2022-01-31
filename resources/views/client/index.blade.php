@@ -57,6 +57,10 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <div class="mt-5">
+                        {{ $clients->links() }}
+                    </div>
                 </div>
             </div>
         </div>

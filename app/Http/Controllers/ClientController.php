@@ -14,7 +14,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $data = Client::all();
+        $data = Client::latest()->paginate(10);
         // dd($clients);
         return view('client.index')->with('clients', $data);
     }
@@ -48,6 +48,27 @@ class ClientController extends Controller
             'avatar'   => ['image'],
             'status'   => ['not_in:none', 'string'],
         ]);
+
+        // Client::create([
+        //     'name'      => $request->name,
+        //     'username'  => $request->username,
+        //     'email'     => $request->email,
+        //     'phone'     => $request->phone,
+        //     'country'   => $request->country,
+        //     // 'avatar' => $avatar,
+        //     'status'    => $request->status,
+        // ]);
+Client::create([
+            'name'  => $request->name,
+            'username'  => $request->username,
+            'email'  => $request->email,
+            'phone'  => $request->phone,
+            'country'  => $request->country,
+            // 'thumbnail'  => $thumb,
+            'status'  => $request->status,
+        ]);
+        return redirect()->route('client.index');
+
     }
 
     /**
