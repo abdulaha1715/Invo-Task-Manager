@@ -2,9 +2,9 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Add New Client') }}
+                {{ __('Add New Task') }}
             </h2>
-            <a href="{{ route('client.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
+            <a href="{{ route('task.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
         </div>
     </x-slot>
 
@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('task.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="flex mt-6">
@@ -24,32 +24,30 @@
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
-
-                            <div class="flex-1 mr-4">
-                                <label for="username" class="formLabel">Username</label>
-                                <input type="text" name="username" class="formInput" value="{{ old('username') }}">
-
-                                @error('username')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
                         </div>
 
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
-                                <label for="email" class="formLabel">Email</label>
-                                <input type="email" name="email" class="formInput" value="{{ old('email') }}">
+                                <label for="price" class="formLabel">Price</label>
+                                <input type="number" name="price" class="formInput" value="{{ old('price') }}">
 
-                                @error('email')
+                                @error('price')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="flex-1 mr-4">
-                                <label for="phone" class="formLabel">Phone</label>
-                                <input type="tel" name="phone" class="formInput" value="{{ old('phone') }}">
+                                <label for="client_id" class="formLabel">Client Name</label>
 
-                                @error('phone')
+                                <select name="client_id" id="client_id" class="formInput">
+                                    <option value="none">Select Client</option>
+                                    @foreach ($clients as $client)
+                                        <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
+                                    @endforeach
+
+                                </select>
+
+                                @error('client_id')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -57,41 +55,11 @@
 
                         <div class="flex mt-6 justify-between">
                             <div class="flex-1">
-                                <label for="country" class="formLabel">Country</label>
+                                <label for="description" class="formLabel">Description</label>
 
-                                <select name="country" id="country" class="formInput">
-                                    <option value="none">Select Country</option>
+                                <textarea name="description" id="description" class="formInput" rows="10">{{ old('description') }}</textarea>
 
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country }}" {{ old('country') == $country ? 'selected' : '' }}>{{ $country }}</option>
-                                    @endforeach
-                                </select>
-
-                                @error('country')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div class="flex-1 mx-5">
-                                <label for="avatar" class="formLabel">Avatar</label>
-                                <label for="avatar" class="formLabel border-2 rounded-md border-dashed border-emerald-700 py-4 text-center">Click
-                                    to upload image</label>
-                                <input type="file" name="avatar" id="avatar" class="formInput hidden">
-
-                                @error('avatar')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div class="flex-1">
-                                <label for="status" class="formLabel">Status</label>
-                                <select name="status" id="status" class="formInput">
-                                    <option value="none" {{ old('status') == 'none' ? 'selected' : '' }}>Select Status</option>
-                                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                                </select>
-
-                                @error('status')
+                                @error('description')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -15,6 +17,7 @@ class TaskController extends Controller
     public function index()
     {
         $data = Task::orderBy('id','DESC')->paginate(10);
+
         return view('task.index')->with([
             'tasks' => $data
         ]);
@@ -27,7 +30,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('task.create')->with([
+            'clients' => Client::all(),
+        ]);
     }
 
     /**
@@ -38,7 +43,21 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        $this->taskValidation($request);
+
+        Task::create([
+            'name'        => $request->name,
+            'price'       => $request->price,
+            'client_id'   => $request->client_id,
+            'user_id'     => Auth::user()->id,
+            'description' => $request->description,
+        ]);
+
+
+        return redirect()->route('task.index')->with('success', "Task Created!");
+
     }
 
     /**
@@ -61,6 +80,23 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function taskValidation(Request $request)
+    {
+        $request->validate([
+            'name'        => ['required', 'max:255', 'string'],
+            'price'       => ['required', 'integer'],
+            'client_id'   => ['required', 'max:255', 'not_in:none'],
+            'description' => ['required'],
+        ]);
+
     }
 
     /**

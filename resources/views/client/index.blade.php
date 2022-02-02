@@ -8,12 +8,7 @@
         </div>
     </x-slot>
 
-    @if (Session('success'))
-        <div id="status_message" class="py-2 bg-emerald-200 text-emerald-700 text-center">
-            <p>{{ Session('success') }}</p>
-        </div>
-    @endif
-
+   @include('layouts.messages')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

@@ -8,12 +8,7 @@
         </div>
     </x-slot>
 
-    @if (Session('success'))
-        <div id="status_message" class="py-2 bg-emerald-200 text-emerald-700 text-center">
-            <p>{{ Session('success') }}</p>
-        </div>
-    @endif
-
+   @include('layouts.messages')
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -30,23 +25,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @php
-                                function getImageUrl($image) {
-                                    if(str_starts_with($image, 'http')) {
-                                        return $image;
-                                    }
-                                    return asset('storage/uploads') . '/' . $image;
-                                }
-                            @endphp --}}
 
                             @foreach ($tasks as $task)
                                 <tr>
                                     <td class="border py-2 w-8 text-center">
                                         {{ $task->id }}
                                     </td>
-                                    {{-- <td class="border py-2 w-32 text-center">
-                                        <img src="{{ getImageUrl($client->avatar) }}" width="80" class="mx-auto rounded" alt="">
-                                    </td> --}}
                                     <td class="border py-2 text-center">
                                         {{ $task->name }}
                                     </td>
@@ -56,15 +40,6 @@
                                     <td class="border py-2 text-center">
                                         {{ $task->price }}
                                     </td>
-                                    {{-- <td class="border py-2 text-center">
-                                        {{ $client->email }}
-                                    </td>
-                                    <td class="border py-2 text-center">
-                                        {{ $client->phone }}
-                                    </td>
-                                    <td class="border py-2 text-center">
-                                        {{ $client->country }}
-                                    </td> --}}
                                     <td class="border py-2 text-center">
                                         <div class="flex justify-center">
                                             <a href="{{ route('task.edit', $task->id) }}" class="text-white bg-emerald-800 px-3 py-1 mr-2">Edit</a>
