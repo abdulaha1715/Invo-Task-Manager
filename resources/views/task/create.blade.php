@@ -12,6 +12,17 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+
+                    @if ( count($clients) == 0)
+
+                        <div class="text-white bg-red-500 text-center py-3">
+                            <p>You don't have any client.</p>
+                            <p>You have to define client first! <a href="{{ route('client.create') }}" class="bg-black text-white px-3 text-sm rounded-md ml-1 py-1">Add New Client</a></p>
+                        </div>
+
+                    @endif
+
+
                     <form action="{{ route('task.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
