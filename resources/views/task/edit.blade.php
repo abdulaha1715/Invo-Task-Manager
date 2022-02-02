@@ -2,9 +2,9 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Edit Client') }}
+                {{ __('Edit Task') }}
             </h2>
-            <a href="{{ route('client.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
+            <a href="{{ route('task.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
         </div>
     </x-slot>
 
@@ -12,25 +12,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('client.update', $client->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('task.update', $task->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
                                 <label for="name" class="formLabel">Name</label>
-                                <input type="text" name="name" class="formInput" value="{{ $client->name }}">
+                                <input type="text" name="name" class="formInput" value="{{ $task->name }}">
 
                                 @error('name')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div class="flex-1 mr-4">
-                                <label for="username" class="formLabel">Username</label>
-                                <input type="text" name="username" class="formInput" value="{{ $client->username }}">
-
-                                @error('username')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -38,19 +29,26 @@
 
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
-                                <label for="email" class="formLabel">Email</label>
-                                <input type="email" name="email" class="formInput" value="{{ $client->email }}">
+                                <label for="price" class="formLabel">Price</label>
+                                <input type="number" name="price" class="formInput" value="{{ $task->price }}">
 
-                                @error('email')
+                                @error('price')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="flex-1 mr-4">
-                                <label for="phone" class="formLabel">Phone</label>
-                                <input type="tel" name="phone" class="formInput" value="{{ $client->phone }}">
+                                <label for="client_id" class="formLabel">Client Name</label>
 
-                                @error('phone')
+                                <select name="client_id" id="client_id" class="formInput">
+                                    <option value="none">Select Client</option>
+                                    @foreach ($clients as $client)
+                                        <option value="{{ $client->id }}" {{ $task->client_id == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
+                                    @endforeach
+
+                                </select>
+
+                                @error('client_id')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -58,61 +56,18 @@
 
                         <div class="flex mt-6 justify-between">
                             <div class="flex-1">
-                                <label for="country" class="formLabel">Country</label>
+                                <label for="description" class="formLabel">Description</label>
 
-                                <select name="country" id="country" class="formInput">
-                                    <option value="none">Select Country</option>
+                                <textarea name="description" id="description" class="formInput" rows="10">{{ $task->description }}</textarea>
 
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country }}" {{ $client->country == $country ? 'selected' : '' }}>{{ $country }}</option>
-                                    @endforeach
-                                </select>
-
-                                @error('country')
+                                @error('description')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
-                            </div>
-
-                            <div class="flex-1 mx-5">
-                                <label for="status" class="formLabel">Status</label>
-                                <select name="status" id="status" class="formInput">
-                                    <option value="none" {{ $client->status == 'none' ? 'selected' : '' }}>Select Status</option>
-                                    <option value="active" {{ $client->status == 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="inactive" {{ $client->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                                </select>
-
-                                @error('status')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div class="flex-1">
-                                <label for="avatar" class="formLabel">Avatar</label>
-                                <label for="avatar" class="formLabel border-2 rounded-md border-dashed border-emerald-700 py-4 text-center">Click
-                                    to upload image</label>
-                                <input type="file" name="avatar" id="avatar" class="formInput hidden">
-
-                                @error('avatar')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-
-                                @php
-                                    function getImageUrl($image) {
-                                        if(str_starts_with($image, 'http')) {
-                                            return $image;
-                                        }
-                                        return asset('storage/uploads') . '/' . $image;
-                                    }
-                                @endphp
-
-                                <div class="w-full">
-                                    <img src="{{ getImageUrl($client->avatar) }}" alt="" class="rounded w-28 h-28">
-                                </div>
                             </div>
                         </div>
 
                         <div class="mt-6">
-                            <button type="submit" class="px-8 py-2 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Update</button>
+                            <button type="submit" class="px-8 py-2 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Updated</button>
                         </div>
 
                     </form>

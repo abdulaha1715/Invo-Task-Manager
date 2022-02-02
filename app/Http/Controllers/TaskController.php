@@ -79,18 +79,21 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return view('task.edit')->with([
+            'task'   => $task,
+            'clients' => Client::all(),
+        ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Task data Validation.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function taskValidation(Request $request)
     {
-        $request->validate([
+        return $request->validate([
             'name'        => ['required', 'max:255', 'string'],
             'price'       => ['required', 'integer'],
             'client_id'   => ['required', 'max:255', 'not_in:none'],
@@ -108,7 +111,18 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $this->taskValidation($request);
+
+        $task->update([
+            'name'        => $request->name,
+            'price'       => $request->price,
+            'client_id'   => $request->client_id,
+            'user_id'     => Auth::user()->id,
+            'description' => $request->description,
+        ]);
+
+
+        return redirect()->route('task.index')->with('success', "Task Updated!");
     }
 
     /**
