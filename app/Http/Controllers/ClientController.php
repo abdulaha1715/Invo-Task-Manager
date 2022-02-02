@@ -15,8 +15,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $data = Client::latest()->paginate(10);
-        // dd($clients);
+        $data = Client::orderBy('id','DESC')->paginate(10);
+
         return view('client.index')->with('clients', $data);
     }
 
