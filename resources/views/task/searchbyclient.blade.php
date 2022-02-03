@@ -1,10 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Tasks') }}
-            </h2>
-            <a href="{{ route('task.create') }}"class="border border-emerald-400 px-3 py-1">Add New</a>
+        <div class="flex justify-between items-center">
+            <div class="">
+                <h2 class="font-semibold text-3xl text-gray-800 leading-tight">
+                    {{ $client->name }}
+                    {{ __('Tasks List') }}
+                </h2>
+                <p class="text-xl">{{ $client->email }}</p>
+                <p class="text-xl">{{ $client->phone }}</p>
+                <p class="text-xl">{{ $client->country }}</p>
+            </div>
+
+            <a href="{{ route('client.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
         </div>
     </x-slot>
 
@@ -19,7 +26,6 @@
                             <tr>
                                 <th class="border py-2 w-8">Id</th>
                                 <th class="border py-2">Name</th>
-                                <th class="border py-2">Client</th>
                                 <th class="border py-2">Price</th>
                                 <th class="border py-2">Status</th>
                                 <th class="border py-2">Action</th>
@@ -27,16 +33,13 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($tasks as $task)
+                            @foreach ( $client->tasks as $task)
                                 <tr>
                                     <td class="border py-2 w-8 text-center">
                                         {{ $task->id }}
                                     </td>
                                     <td class="border py-2 text-center">
                                         {{ $task->name }}
-                                    </td>
-                                    <td class="border py-2 text-center">
-                                        <a class="text-emerald-500 hover:underline" href="{{ route('searchTaskByClient',$task->client) }}">{{ $task->client->name }}</a>
                                     </td>
                                     <td class="border py-2 text-center">
                                         {{ $task->price }}
@@ -64,7 +67,7 @@
                     </table>
 
                     <div class="mt-5">
-                        {{ $tasks->links() }}
+                        {{-- {{ $tasks->links() }} --}}
                     </div>
                 </div>
             </div>

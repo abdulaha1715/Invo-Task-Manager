@@ -139,6 +139,11 @@ class ClientController extends Controller
 
     }
 
+
+    public function searchTaskByClient(Client $client) {
+        return view('task.searchbyclient')->with('client', $client);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
