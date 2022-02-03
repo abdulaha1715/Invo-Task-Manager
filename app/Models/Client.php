@@ -11,4 +11,8 @@ class Client extends Model
 
     // protected $fillable = ['name','username', 'email', 'phone', 'country', 'avatar', 'status'];
     protected $guarded = ['id','created_at', 'updated_at'];
+
+    public function tasks() {
+        return $this->hasMany(Task::class, 'client_id', 'id');
+    }
 }

@@ -24,6 +24,7 @@
                                 <th class="border py-2">Email</th>
                                 <th class="border py-2">Phone</th>
                                 <th class="border py-2">Country</th>
+                                <th class="border py-2">Task Count</th>
                                 <th class="border py-2">Action</th>
                             </tr>
                         </thead>
@@ -59,6 +60,9 @@
                                     </td>
                                     <td class="border py-2 text-center">
                                         {{ $client->country }}
+                                    </td>
+                                    <td class="border py-2 text-center">
+                                        <div class=" mx-auto bg-orange-500 text-white rounded-full w-8 h-8 leading-8 text-center">{{ count($client->tasks) }}</div>
                                     </td>
                                     <td class="border py-2 text-center">
                                         <div class="flex justify-center">
