@@ -21,6 +21,7 @@
                                 <th class="border py-2">Name</th>
                                 <th class="border py-2">Client</th>
                                 <th class="border py-2">Price</th>
+                                <th class="border py-2">Status</th>
                                 <th class="border py-2">Action</th>
                             </tr>
                         </thead>
@@ -39,6 +40,9 @@
                                     </td>
                                     <td class="border py-2 text-center">
                                         {{ $task->price }}
+                                    </td>
+                                    <td class="border py-2 text-center capitalize">
+                                        {{ $task->status }}
                                     </td>
                                     <td class="border py-2 text-center">
                                         <div class="flex justify-center">
