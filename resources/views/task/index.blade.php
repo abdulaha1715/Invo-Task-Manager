@@ -43,6 +43,9 @@
                                     <td class="border py-2 text-center">
                                         <div class="flex justify-center">
                                             <a href="{{ route('task.edit', $task->id) }}" class="text-white bg-emerald-800 px-3 py-1 mr-2">Edit</a>
+
+                                            <a href="{{ route('task.show', $task->id) }}" class="text-white bg-blue-800 px-3 py-1 mr-2">View</a>
+
                                             <form action="{{ route('task.destroy', $task->id) }}" method="POST" onsubmit="return confirm('Do you want to delete?');">
                                                 @csrf
                                                 @method('DELETE')
