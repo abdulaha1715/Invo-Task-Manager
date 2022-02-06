@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
@@ -15,7 +16,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $data = Client::with('tasks')->orderBy('id','DESC')->paginate(10);
+        $data = Client::where('user_id', Auth::user()->id)->with('tasks')->orderBy('id','DESC')->paginate(10);
 
         return view('client.index')->with('clients', $data);
     }
@@ -63,6 +64,7 @@ class ClientController extends Controller
             'phone'    => $request->phone,
             'country'  => $request->country,
             'avatar'   => $avatar,
+            'user_id'  => Auth::user()->id,
             'status'   => $request->status,
         ]);
 
@@ -132,6 +134,7 @@ class ClientController extends Controller
             'phone'    => $request->phone,
             'country'  => $request->country,
             'avatar'   => $avatar,
+            'user_id'  => Auth::user()->id,
             'status'   => $request->status,
         ]);
 

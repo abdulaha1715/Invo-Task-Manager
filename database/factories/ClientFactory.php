@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ClientFactory extends Factory
@@ -19,6 +20,7 @@ class ClientFactory extends Factory
             'email'     => $this->faker->unique()->safeEmail(),
             'phone'     => $this->faker->phoneNumber(),
             'country'   => $this->faker->country(),
+            'user_id'   => User::all()->random()->id,
             'avatar' => 'https://picsum.photos/300?random='.rand(1, 500),
         ];
     }
