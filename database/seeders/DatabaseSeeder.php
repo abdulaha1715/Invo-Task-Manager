@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Task;
+use App\Models\Invoice;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -35,5 +36,7 @@ class DatabaseSeeder extends Seeder
         Client::factory(10)->create();
 
         Task::factory(50)->create();
+
+        Invoice::factory(30)->create();
     }
 }
