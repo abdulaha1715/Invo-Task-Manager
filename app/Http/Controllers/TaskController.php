@@ -140,4 +140,14 @@ class TaskController extends Controller
         $task->delete();
         return redirect()->route('task.index')->with('success', "Task Deleted");
     }
+
+
+    public function markAsComplete(Task $task) {
+
+        $task->update([
+            'status' => 'complete'
+        ]);
+
+        return redirect()->back()->with('success', "Mark as Completed");
+    }
 }

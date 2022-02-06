@@ -34,6 +34,8 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::resource('task', TaskController::class);
 
+    Route::put('task/{task}/complete', [TaskController::class, 'markAsComplete'])->name('markAsComplete');
+
 });
 
 require __DIR__.'/auth.php';
