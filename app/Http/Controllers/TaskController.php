@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -49,6 +50,7 @@ class TaskController extends Controller
 
         Task::create([
             'name'        => $request->name,
+            'slug'        => Str::slug($request->name),
             'price'       => $request->price,
             'client_id'   => $request->client_id,
             'user_id'     => Auth::user()->id,
@@ -116,6 +118,7 @@ class TaskController extends Controller
 
         $task->update([
             'name'        => $request->name,
+            'slug'        => Str::slug($request->name),
             'price'       => $request->price,
             'client_id'   => $request->client_id,
             'user_id'     => Auth::user()->id,

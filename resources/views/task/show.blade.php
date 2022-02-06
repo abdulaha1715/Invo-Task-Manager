@@ -21,7 +21,7 @@
 
                         <h2 class="text-3xl font-bold mt-5 mb-3">Description</h2>
 
-                        <div class="border my-4 p-5 text-lg">
+                        <div class="border my-4 p-5 text-lg prose max-w-none">
                             {!! $task->description !!}
                         </div>
                     </div>

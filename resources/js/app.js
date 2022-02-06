@@ -13,3 +13,4 @@ jQuery(document).ready(function($) {
     }, 3000);
 });
 
+CKEDITOR.replace( 'description' );

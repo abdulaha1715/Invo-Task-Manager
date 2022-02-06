@@ -5486,6 +5486,7 @@ jQuery(document).ready(function ($) {
     $('#status_message').slideUp('slow');
   }, 3000);
 });
+CKEDITOR.replace('description');
 
 /***/ }),
 
