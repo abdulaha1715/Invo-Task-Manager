@@ -17,24 +17,28 @@
                     <table class="w-full border-collapse">
                         <thead>
                             <tr>
-                                <th class="border py-2 w-36">Id</th>
-                                <th class="border py-2">Client</th>
-                                <th class="border py-2">Status</th>
-                                <th class="border py-2">Action</th>
+                                <th class="border py-2 w-1/6">Id</th>
+                                <th class="border py-2 w-1/4">Client</th>
+                                <th class="border py-2 w-1/5">Status</th>
+                                <th class="border py-2 w-1/6">Download</th>
+                                <th class="border py-2 w-1/3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             @foreach ($invoices as $invoice)
                                 <tr>
-                                    <td class="border py-2 w-36 text-center">
+                                    <td class="border py-2 text-center">
                                         {{ $invoice->invoice_id }}
                                     </td>
                                     <td class="border py-2 text-center">
-                                        {{ $invoice->client_id }}
+                                        {{ $invoice->client->name }}
+                                    </td>
+                                    <td class="border py-2 text-center capitalize">
+                                        {{ $invoice->status }}
                                     </td>
                                     <td class="border py-2 text-center">
-                                        {{ $invoice->status }}
+                                        <a href="{{ $invoice->download_url }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mr-2" rel="noopener noreferrer">Download PDF</a>
                                     </td>
                                     <td class="border py-2 text-center">
                                         <div class="flex justify-center">
