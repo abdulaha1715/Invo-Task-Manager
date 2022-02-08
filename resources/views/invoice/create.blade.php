@@ -2,9 +2,9 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Add New Task') }}
+                {{ __('Add New Invoice') }}
             </h2>
-            <a href="{{ route('task.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
+            <a href="{{ route('invoice.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
         </div>
     </x-slot>
 
@@ -13,40 +13,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    @if ( count($clients) == 0)
-
-                        <div class="text-white bg-red-500 text-center py-3">
-                            <p>You don't have any client.</p>
-                            <p>You have to define client first! <a href="{{ route('client.create') }}" class="bg-black text-white px-3 text-sm rounded-md ml-1 py-1">Add New Client</a></p>
-                        </div>
-
-                    @endif
-
-
-                    <form action="{{ route('task.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('invoice.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="flex mt-6">
-                            <div class="flex-1 mr-4">
-                                <label for="name" class="formLabel">Name</label>
-                                <input type="text" name="name" class="formInput" value="{{ old('name') }}">
-
-                                @error('name')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="flex mt-6">
-                            <div class="flex-1 mr-4">
-                                <label for="price" class="formLabel">Price</label>
-                                <input type="number" name="price" class="formInput" value="{{ old('price') }}">
-
-                                @error('price')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-
+                        <div class="flex mt-6 justify-between items-end">
                             <div class="flex-1 mr-4">
                                 <label for="client_id" class="formLabel">Client Name</label>
 
@@ -62,24 +32,39 @@
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </div>
+                            <div class="flex-1 mr-4">
+                                <label for="status" class="formLabel">Select Status</label>
 
-                        <div class="flex mt-6 justify-between">
-                            <div class="flex-1">
-                                <label for="description" class="formLabel">Description</label>
+                                <select name="status" id="status" class="formInput">
+                                    <option value="none">Select Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="complete">Complete</option>
+                                </select>
 
-                                <textarea name="description" id="description" class="formInput" rows="10">{{ old('description') }}</textarea>
-
-                                @error('description')
+                                @error('status')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </div>
+                            <div class="flex-1 mr-4">
+                                <label for="fromdate" class="formLabel">Start Date</label>
+                                <input type="date" id="fromdate" name="price" class="formInput" value="">
 
-                        <div class="mt-6">
-                            <button type="submit" class="px-8 py-2 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Create</button>
-                        </div>
+                                @error('status')
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="flex-1 mr-4">
+                                <label for="todate" class="formLabel">To Date</label>
+                                <input type="date" id="todate" name="price" class="formInput" value="{{ now()->format('Y-m-d') }}">
 
+                                @error('status')
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="flex-1 mr-4">
+                                <button type="submit" class="px-8 py-3 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Search</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

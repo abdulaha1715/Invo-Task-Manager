@@ -84,7 +84,7 @@ class TaskController extends Controller
     {
         return view('task.edit')->with([
             'task'   => $task,
-            'clients' => Client::all(),
+            'clients' => Client::where('user_id', Auth::user()->id)->get(),
         ]);
     }
 
