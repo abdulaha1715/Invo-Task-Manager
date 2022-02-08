@@ -21,6 +21,15 @@ class InvoiceController extends Controller
         ]);
     }
 
+    public function search(Request $request) {
+        // dd($request->all());
+
+        return $request->validate([
+            'client_id' => ['required', 'not_in:none'],
+            'status'    => ['required', 'not_in:none'],
+        ]);
+    }
+
     public function edit() {
 
     }

@@ -39,6 +39,8 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::get('invoices', [InvoiceController::class, 'index'])->name('invoice.index');
 
+    Route::get('invoice/search', [InvoiceController::class, 'search'])->name('invoice.search');
+
     Route::get('invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
 
     Route::get('invoice/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoice.edit');
