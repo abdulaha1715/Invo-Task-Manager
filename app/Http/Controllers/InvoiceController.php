@@ -49,17 +49,15 @@ class InvoiceController extends Controller
             $tasks = $tasks->whereDate('created_at', '<=', $request->endDate);
         }
 
-        // dd($request->all());
-        // dd($tasks->get());
-
         return view('invoice.create')->with([
             'clients' => Client::where('user_id', Auth::user()->id)->get(),
             'tasks'   => $tasks->get(),
         ]);
 
+    }
 
-
-
+    public function preview() {
+        return view('invoice.preview');
     }
 
     public function edit() {

@@ -49,9 +49,9 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::put('invoice/{invoice}/update', [InvoiceController::class, 'edit'])->name('invoice.edit');
 
-    Route::get('invoice/{invoice}', [InvoiceController::class, 'show'])->name('invoice.show');
-
     Route::delete('invoice/{invoice}/destroy', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
+
+    Route::get('invoice/preview/', [InvoiceController::class, 'preview'])->name('preview.invoice');
 
 });
 

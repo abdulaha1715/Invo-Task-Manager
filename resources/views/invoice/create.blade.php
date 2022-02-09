@@ -104,6 +104,11 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="flex mt-5 justify-center">
+                        <a href="{{ route('preview.invoice') }}" class="px-3 py-2 bg-teal-500 text-white">Preview</a>
+                    </div>
+
                     @endif
 
                 </div>
