@@ -28,7 +28,7 @@
                                 <select name="client_id" id="client_id" class="formInput">
                                     <option value="none">Select Client</option>
                                     @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
+                                        <option value="{{ $client->id }}" {{ old('client_id') == $client->id || request('client_id') == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
                                     @endforeach
 
                                 </select>
@@ -43,8 +43,8 @@
 
                                 <select name="status" id="status" class="formInput">
                                     <option value="none">Select Status</option>
-                                    <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="complete" {{ old('status') == 'complete' ? 'selected' : '' }}>Complete</option>
+                                    <option value="pending" {{ old('status') == 'pending' || request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="complete" {{ old('status') == 'complete' || request('status') == 'complete' ? 'selected' : '' }}>Complete</option>
                                 </select>
                             </div>
                             <div class="flex-1 mr-4">
@@ -54,7 +54,7 @@
                                 @enderror
 
                                 <label for="fromDate" class="formLabel">Start Date</label>
-                                <input type="date" id="fromDate" name="fromDate" class="formInput" value="" max="{{ now()->format('Y-m-d') }}">
+                                <input type="date" id="fromDate" name="fromDate" class="formInput" value="{{ request('fromDate') }}" max="{{ now()->format('Y-m-d') }}">
                             </div>
                             <div class="flex-1 mr-4">
 
@@ -63,13 +63,49 @@
                                 @enderror
 
                                 <label for="endDate" class="formLabel">End Date</label>
-                                <input type="date" id="endDate" name="endDate" class="formInput" value="{{ now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}">
+                                <input type="date" id="endDate" name="endDate" class="formInput" value="{{ request('endDate') !='' ? request('endDate') : now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}">
                             </div>
                             <div class="flex-1 mr-4">
                                 <button type="submit" class="px-8 py-3 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Search</button>
                             </div>
                         </div>
                     </form>
+
+                    @if ($tasks)
+                    <div class="mt-10">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="border py-2 w-1/6">Id</th>
+                                    <th class="border py-2 w-1/6">Name</th>
+                                    <th class="border py-2 w-1/4">Client</th>
+                                    <th class="border py-2 w-1/5">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($tasks as $task)
+                                    <tr>
+                                        <td class="border py-2 text-center">
+                                            {{ $task->id }}
+                                        </td>
+                                        <td class="border py-2 text-center">
+                                            {{ $task->name }}
+                                        </td>
+                                        <td class="border py-2 text-center">
+                                            {{ $task->client->name }}
+                                        </td>
+                                        <td class="border py-2 text-center capitalize">
+                                            {{ $task->status }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
+
                 </div>
             </div>
         </div>
