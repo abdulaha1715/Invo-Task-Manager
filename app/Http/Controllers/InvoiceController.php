@@ -23,13 +23,7 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function search(Request $request) {
-        // dd($request->all());
-
-        $request->validate([
-            'client_id' => ['required', 'not_in:none'],
-            'status'    => ['required', 'not_in:none'],
-        ]);
+    public function getInvoiceData(Request $request) {
 
         $tasks = Task::latest();
 
@@ -49,15 +43,30 @@ class InvoiceController extends Controller
             $tasks = $tasks->whereDate('created_at', '<=', $request->endDate);
         }
 
+        return $tasks->get();
+    }
+
+    public function search(Request $request) {
+        // dd($request->all());
+
+        $request->validate([
+            'client_id' => ['required', 'not_in:none'],
+            'status'    => ['required', 'not_in:none'],
+        ]);
+
         return view('invoice.create')->with([
             'clients' => Client::where('user_id', Auth::user()->id)->get(),
-            'tasks'   => $tasks->get(),
+            'tasks'   => $this->getInvoiceData($request),
         ]);
 
     }
 
-    public function preview() {
-        return view('invoice.preview');
+    public function preview(Request $request) {
+        return view('invoice.preview')->with([
+            'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
+            'user'  => Auth::user(),
+            'tasks' => $this->getInvoiceData($request),
+        ]);
     }
 
     public function edit() {

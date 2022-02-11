@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name'      => 'Abdulaha Islam',
             'email'     => 'abdulahaislam210917@gmail.com',
+            'company'   => 'Abnipes Network',
+            'phone'     => '01715-246330',
+            'country'   => 'Bangladesh',
             'password'  => bcrypt('01918786189'),
             'thumbnail' => 'https://picsum.photos/300'
         ]);
@@ -29,14 +32,17 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name'      => 'John Doe',
             'email'     => 'demo@gmail.com',
+            'company'   => 'Abnipes Network',
+            'phone'     => '01000-000000',
+            'country'   => 'Bangladesh',
             'password'  => bcrypt('123'),
             'thumbnail' => 'https://picsum.photos/300'
         ]);
 
         Client::factory(10)->create();
 
-        Task::factory(50)->create();
+        Task::factory(180)->create();
 
-        Invoice::factory(30)->create();
+        Invoice::factory(80)->create();
     }
 }
