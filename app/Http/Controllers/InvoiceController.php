@@ -72,14 +72,16 @@ class InvoiceController extends Controller
 
     public function generate(Request $request) {
 
+        $invoice_no  = 'INVO_' . rand(253684, 2584698457);
+
         $pdf_data = [
-            'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
+            'invoice_no'  => $invoice_no,
             'user'  => Auth::user(),
             'tasks' => $this->getInvoiceData($request),
         ];
 
         $pdf = PDF::loadView('invoice.pdf', $pdf_data);
-        return $pdf->download('invoice.pdf');
+        return $pdf->download($invoice_no . ".pdf");
     }
 
     public function edit() {

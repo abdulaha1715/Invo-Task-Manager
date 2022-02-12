@@ -130,11 +130,11 @@
             margin-bottom: 3px
         }
         .single_head_title span {
-            width: 15%;
+            width: 100px;
             display: inline-block;
         }
         .single_head_title strong span {
-            width: 3%;
+            width: 10px;
         }
     </style>
 </head>
@@ -158,7 +158,11 @@
                 </div>
             </div>
             <div class="header_logo">
-                <img src="{{ asset('img/logo.png') }}" class="w-40" style="margin-left:auto">
+                @if (request()->routeIs('preview.invoice'))
+                    <img src="{{ asset('img/logo.png') }}" class="w-40" style="margin-left:auto">
+                @else
+                    <img src="img/logo.png" class="w-20" style="margin-left:auto; width:80px">
+                @endif
             </div>
         </div>
         <div class="invoice_from_to">
