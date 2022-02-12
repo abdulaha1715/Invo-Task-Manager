@@ -39,13 +39,11 @@
                                         {{ $invoice->status }}
                                     </td>
                                     <td class="border py-2 text-center">
-                                        <a href="{{ $invoice->download_url }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mr-2" rel="noopener noreferrer">Download PDF</a>
+                                        <a href="{{ asset('storage/invoices/' . $invoice->download_url)  }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mr-2" rel="noopener noreferrer">Download PDF</a>
                                     </td>
                                     <td class="border py-2 text-center">
                                         <div class="flex justify-center">
                                             <a href="{{ route('invoice.edit', $invoice->id) }}" class="text-white bg-emerald-800 px-3 py-1 mr-2">Edit</a>
-
-                                            {{-- <a href="{{ route('invoice.show', $invoice->id) }}" class="text-white bg-blue-800 px-3 py-1 mr-2">View</a> --}}
 
                                             <form action="{{ route('invoice.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Do you want to delete?');">
                                                 @csrf
@@ -57,7 +55,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="border py-6 text-center text-3xl">No Invoice Found!</td>
+                                    <td colspan="5" class="border py-6 text-center text-xl">No Invoice Found!</td>
                                 </tr>
                             @endforelse
 

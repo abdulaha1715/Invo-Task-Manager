@@ -8,6 +8,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -80,8 +81,23 @@ class InvoiceController extends Controller
             'tasks' => $this->getInvoiceData($request),
         ];
 
+        // Generate PDF
         $pdf = PDF::loadView('invoice.pdf', $pdf_data);
-        return $pdf->download($invoice_no . ".pdf");
+
+        // Store PDF in Storage
+        Storage::put('public/invoices/'.$invoice_no . '.pdf', $pdf->output());
+
+        // nsert PDF into Database
+        Invoice::create([
+            'invoice_id'   => $invoice_no,
+            'client_id'    => $request->client_id,
+            'user_id'      => Auth::user()->id,
+            'status'       => 'unpaid',
+            'download_url' => $invoice_no. '.pdf',
+        ]);
+
+        return redirect()->route('invoice.index')->with('success', "Invoice Created!");
+
     }
 
     public function edit() {

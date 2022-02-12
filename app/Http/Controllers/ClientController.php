@@ -68,7 +68,6 @@ class ClientController extends Controller
             'status'   => $request->status,
         ]);
 
-
         return redirect()->route('client.index')->with('success', "Client Added Successfully!");
 
     }
