@@ -53,6 +53,8 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::get('invoice/preview/', [InvoiceController::class, 'preview'])->name('preview.invoice');
 
+    Route::get('invoice/generate/', [InvoiceController::class, 'generate'])->name('invoice.generate');
+
 });
 
 require __DIR__.'/auth.php';

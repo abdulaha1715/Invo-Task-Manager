@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class InvoiceController extends Controller
 {
@@ -67,6 +68,18 @@ class InvoiceController extends Controller
             'user'  => Auth::user(),
             'tasks' => $this->getInvoiceData($request),
         ]);
+    }
+
+    public function generate(Request $request) {
+
+        $pdf_data = [
+            'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
+            'user'  => Auth::user(),
+            'tasks' => $this->getInvoiceData($request),
+        ];
+
+        $pdf = PDF::loadView('invoice.pdf', $pdf_data);
+        return $pdf->download('invoice.pdf');
     }
 
     public function edit() {

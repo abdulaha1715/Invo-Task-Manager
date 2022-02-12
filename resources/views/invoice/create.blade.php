@@ -105,8 +105,10 @@
                         </table>
                     </div>
 
-                    <div class="flex mt-5 justify-center">
+                    <div class="flex mt-5 justify-center space-x-5">
                         <a href="{{ route('preview.invoice') }}{{ '?client_id=' . request('client_id') . '&status=' . request('status') . '&fromDate=' . request('fromDate') . '&endDate=' . request('endDate') }}" class="px-3 py-2 bg-teal-500 text-white">Preview</a>
+
+                        <a href="{{ route('invoice.generate') }}{{ '?client_id=' . request('client_id') . '&status=' . request('status') . '&fromDate=' . request('fromDate') . '&endDate=' . request('endDate') }}" class="px-3 py-2 bg-blue-500 text-white">Generate PDF</a>
                     </div>
 
                     @endif
