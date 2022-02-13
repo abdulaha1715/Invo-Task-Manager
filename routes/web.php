@@ -47,7 +47,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 
     Route::post('invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
 
-    Route::put('invoice/{invoice}/update', [InvoiceController::class, 'edit'])->name('invoice.edit');
+    Route::put('invoice/{invoice}/update', [InvoiceController::class, 'update'])->name('invoice.update');
 
     Route::delete('invoice/{invoice}/destroy', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
 

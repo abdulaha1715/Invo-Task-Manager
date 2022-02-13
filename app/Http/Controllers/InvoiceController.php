@@ -108,8 +108,12 @@ class InvoiceController extends Controller
 
     }
 
-    public function update() {
+    public function update(Request $request, Invoice $invoice) {
+        $invoice->update([
+            'status' => 'paid'
+        ]);
 
+        return redirect()->route('invoice.index')->with('success', "Invoice Status Updated!");
     }
 
     public function show() {

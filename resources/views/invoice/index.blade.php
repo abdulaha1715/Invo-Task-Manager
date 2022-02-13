@@ -42,8 +42,14 @@
                                         <a href="{{ asset('storage/invoices/' . $invoice->download_url)  }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mr-2" rel="noopener noreferrer">Download PDF</a>
                                     </td>
                                     <td class="border py-2 text-center">
-                                        <div class="flex justify-center">
-                                            <a href="{{ route('invoice.edit', $invoice->id) }}" class="text-white bg-emerald-800 px-3 py-1 mr-2">Edit</a>
+                                        <div class="flex justify-center space-x-2">
+                                            @if ($invoice->status == 'unpaid')
+                                                <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Did you get Paid?');">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="text-white bg-green-500 px-3 py-1">Paid</button>
+                                                </form>
+                                            @endif
 
                                             <form action="{{ route('invoice.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Do you want to delete?');">
                                                 @csrf
