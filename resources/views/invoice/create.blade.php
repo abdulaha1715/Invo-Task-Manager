@@ -13,7 +13,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form action="{{ route('invoice.search') }}" method="GET" enctype="multipart/form-data">
+                    <form action="{{ route('invoice.create') }}" method="GET" enctype="multipart/form-data">
                         @csrf
 
                         <div class="flex mt-6 justify-between items-end">

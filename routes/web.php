@@ -16,44 +16,36 @@ Route::get('/', function () {
 });
 
 
-
 // Back-end
+Route::prefix('/')->middleware(['auth'])->group(function () {
 
-
-
-
-
-Route::prefix('dashboard')->middleware(['auth'])->group(function () {
-
-    Route::get('/', function () {
+    Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
+    // Client Route
     Route::resource('client', ClientController::class);
 
-    Route::get('task/client/{client:username}', [ClientController::class, 'searchTaskByClient'])->name('searchTaskByClient');
+    // Task by Client
+    Route::get('client/{client:username}', [ClientController::class, 'searchTaskByClient'])->name('searchTaskByClient');
 
+    // Task Route
     Route::resource('task', TaskController::class);
 
+    // invocies Route
     Route::put('task/{task}/complete', [TaskController::class, 'markAsComplete'])->name('markAsComplete');
 
-    Route::get('invoices', [InvoiceController::class, 'index'])->name('invoice.index');
+    // Invocies Route
+    Route::prefix('invoice')->group(function() {
+        Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
+        Route::put('{invoice}/update', [InvoiceController::class, 'update'])->name('invoice.update');
+        Route::get('preview/', [InvoiceController::class, 'preview'])->name('preview.invoice');
+        Route::get('generate/', [InvoiceController::class, 'generate'])->name('invoice.generate');
+        Route::delete('{invoice}/delete', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
+    });
 
-    Route::get('invoice/search', [InvoiceController::class, 'search'])->name('invoice.search');
 
-    Route::get('invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
-
-    Route::get('invoice/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoice.edit');
-
-    Route::post('invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
-
-    Route::put('invoice/{invoice}/update', [InvoiceController::class, 'update'])->name('invoice.update');
-
-    Route::delete('invoice/{invoice}/destroy', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
-
-    Route::get('invoice/preview/', [InvoiceController::class, 'preview'])->name('preview.invoice');
-
-    Route::get('invoice/generate/', [InvoiceController::class, 'generate'])->name('invoice.generate');
 
 });
 

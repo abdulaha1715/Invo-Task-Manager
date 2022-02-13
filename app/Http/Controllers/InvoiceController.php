@@ -12,19 +12,48 @@ use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
+    /**
+     * Index function
+     * Display invoices
+     */
     public function index(Request $request) {
         return view('invoice.index')->with([
             'invoices' => Invoice::with('client')->latest()->paginate(10),
         ]);
     }
 
-    public function create() {
+    /**
+     * Create function
+     * @param Request
+     * Method Get
+     * Search query
+     */
+    public function create(Request $request) {
+
+        // dd($request->all());
+
+        $tasks = false;
+        // if client_id and status is not empty
+        if (!empty($request->client_id) && !empty($request->status)) {
+            $request->validate([
+                'client_id' => ['required', 'not_in:none'],
+                'status'    => ['required', 'not_in:none'],
+            ]);
+
+            $tasks = $this->getInvoiceData($request);
+        }
+
+        // return
         return view('invoice.create')->with([
             'clients' => Client::where('user_id', Auth::user()->id)->get(),
-            'tasks'   => false,
+            'tasks'   => $tasks
         ]);
     }
 
+    /**
+     * getInvoiceData function
+     * return tasks
+     */
     public function getInvoiceData(Request $request) {
 
         $tasks = Task::latest();
@@ -48,21 +77,10 @@ class InvoiceController extends Controller
         return $tasks->get();
     }
 
-    public function search(Request $request) {
-        // dd($request->all());
-
-        $request->validate([
-            'client_id' => ['required', 'not_in:none'],
-            'status'    => ['required', 'not_in:none'],
-        ]);
-
-        return view('invoice.create')->with([
-            'clients' => Client::where('user_id', Auth::user()->id)->get(),
-            'tasks'   => $this->getInvoiceData($request),
-        ]);
-
-    }
-
+    /**
+     * Preview function
+     * Preview invoice
+     */
     public function preview(Request $request) {
         return view('invoice.preview')->with([
             'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
@@ -71,6 +89,11 @@ class InvoiceController extends Controller
         ]);
     }
 
+    /**
+     * Generate function
+     * Insert invoice PDF
+     * Store invoice PDF
+     */
     public function generate(Request $request) {
 
         $invoice_no  = 'INVO_' . rand(253684, 2584698457);
@@ -100,27 +123,27 @@ class InvoiceController extends Controller
 
     }
 
-    public function edit() {
-
-    }
-
-    public function store(Request $request) {
-
-    }
-
+    /**
+     * Update function
+     * @param Request, Invoice
+     * Update invoice status to paid
+     */
     public function update(Request $request, Invoice $invoice) {
         $invoice->update([
             'status' => 'paid'
         ]);
 
-        return redirect()->route('invoice.index')->with('success', "Invoice Status Updated!");
+        return redirect()->route('invoice.index')->with('success', "Invoice Payment mark as Paid!");
     }
 
-    public function show() {
+    /**
+     * Destroy function
+     * Delete invoice info
+     */
+    public function destroy(Invoice $invoice) {
+        Storage::delete('public/invoices/'.$invoice->download_url);
 
-    }
-
-    public function destroy() {
-
+        $invoice->delete();
+        return redirect()->route('invoice.index')->with('success', "Invoice Deleted");
     }
 }
