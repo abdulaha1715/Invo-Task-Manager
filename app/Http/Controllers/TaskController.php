@@ -15,12 +15,38 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Task::where('user_id', Auth::user()->id)->orderBy('id','DESC')->paginate(10);
+
+        $task_data   = Task::where('user_id', Auth::user()->id)->orderBy('id','DESC');
+
+        if (!empty($request->client_id)) {
+            $task_data = $task_data->where('client_id', $request->client_id);
+        }
+
+        if (!empty($request->status)) {
+            $task_data = $task_data->where('status', $request->status);
+        }
+
+        if (!empty($request->price)) {
+            $task_data = $task_data->where('price', '<=', $request->price);
+        }
+
+        if (!empty($request->fromDate)) {
+            $task_data = $task_data->whereDate('created_at', '>=', $request->fromDate);
+        }
+
+        if (!empty($request->endDate)) {
+            $task_data = $task_data->whereDate('created_at', '<=', $request->endDate);
+        }
+
+        $tasks = $task_data->paginate(10)->withQueryString();
+
+        $clients = Client::where('user_id', Auth::user()->id)->get();
 
         return view('task.index')->with([
-            'tasks' => $data
+            'tasks'   => $tasks,
+            'clients' => $clients,
         ]);
     }
 
