@@ -5485,6 +5485,19 @@ jQuery(document).ready(function ($) {
   setTimeout(function () {
     $('#status_message').slideUp('slow');
   }, 3000);
+  $('#task_filter_trigger').on('click', function () {
+    var text = $(this).text();
+
+    if (text == 'Filter') {
+      $(this).text('Close Filter');
+    }
+
+    if (text == 'Close Filter') {
+      $(this).text('Filter');
+    }
+
+    $('#task_filter').slideToggle('3000');
+  });
 });
 CKEDITOR.replace('description');
 
