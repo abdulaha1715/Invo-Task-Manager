@@ -8,6 +8,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
@@ -146,4 +147,22 @@ class InvoiceController extends Controller
         $invoice->delete();
         return redirect()->route('invoice.index')->with('success', "Invoice Deleted");
     }
+
+
+    /**
+     * SendEmail function
+     * Send invoice info with Email
+     */
+    public function sendEmail(Invoice $invoice_id) {
+
+        Mail::send('emails.invoice', [''], function ($message) {
+            $message->from('john@johndoe.com', 'John Doe');
+            $message->to('john@johndoe.com', 'John Doe');
+            $message->subject('Test Email');
+        });
+
+        return redirect()->route('invoice.index')->with('success', "Email Send!");
+    }
+
+
 }

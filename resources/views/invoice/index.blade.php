@@ -20,7 +20,7 @@
                             <tr>
                                 <th class="border py-2 w-1/6">Id</th>
                                 <th class="border py-2 w-1/4">Client</th>
-                                <th class="border py-2 w-1/5">Status</th>
+                                <th class="border py-2 w-1/6">Status</th>
                                 <th class="border py-2 w-1/6">Download</th>
                                 <th class="border py-2 w-1/3">Action</th>
                             </tr>
@@ -41,8 +41,11 @@
                                     <td class="border py-2 text-center">
                                         <a href="{{ asset('storage/invoices/' . $invoice->download_url)  }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mr-2" rel="noopener noreferrer">Download PDF</a>
                                     </td>
-                                    <td class="border py-2 text-center">
+                                    <td class="border py- px-4 text-center">
                                         <div class="flex justify-center space-x-2">
+
+                                            <a href="{{ route('invoice.sendemail', $invoice) }}" class="text-white bg-emerald-500 px-3 py-1">Send Email</a>
+
                                             @if ($invoice->status == 'unpaid')
                                                 <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Did you get Paid?');">
                                                     @csrf
