@@ -151,7 +151,7 @@ class InvoiceController extends Controller
 
     /**
      * SendEmail function
-     * Send invoice info with Email
+     * Send invoice info with Email and checked with Gmail
      */
     public function sendEmail(Invoice $invoice) {
 
