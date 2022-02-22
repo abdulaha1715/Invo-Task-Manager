@@ -48,7 +48,15 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     });
 
     // Route::get('/email', function () {
-    //     return new InvoiceEmail;
+
+    //     $data = [
+    //         'user'       => '',
+    //         'invoice_id' => '',
+    //         'invoice'    => '',
+    //         'pdf'        => ''
+    //     ];
+
+    //     return new InvoiceEmail($data);
     // });
 
 

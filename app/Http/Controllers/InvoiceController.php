@@ -162,10 +162,10 @@ class InvoiceController extends Controller
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'invoice'    => $invoice,
-            'client'     => $invoice->client
+            'pdf'        => $pdf
         ];
 
-        Mail::send(new InvoiceEmail($data, $pdf));
+        Mail::send(new InvoiceEmail($data));
 
         // Mail::send('emails.invoice', $data, function ($message) use ($invoice, $pdf) {
         //     $message->from(Auth::user()->email, Auth::user()->name);

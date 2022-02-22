@@ -1,11 +1,13 @@
 @component('mail::message')
-# Introduction
+# Welcome
 
 The body of your message.
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::panel')
+The Invoice is attached.
 @endcomponent
+
+Have a nice day.
 
 Thanks,<br>
 {{ config('app.name') }}
