@@ -21,7 +21,8 @@
                                 <th class="border py-2 w-1/6">Id</th>
                                 <th class="border py-2 w-1/4">Client</th>
                                 <th class="border py-2 w-1/6">Status</th>
-                                <th class="border py-2 w-1/6">Download</th>
+                                <th class="border py-2 w-1/6">Email Send</th>
+                                <th class="border py-2">Preview</th>
                                 <th class="border py-2 w-1/3">Action</th>
                             </tr>
                         </thead>
@@ -38,8 +39,11 @@
                                     <td class="border py-2 text-center capitalize">
                                         {{ $invoice->status }}
                                     </td>
+                                    <td class="border py-2 text-center capitalize">
+                                        {{ $invoice->email_sent }}
+                                    </td>
                                     <td class="border py-2 text-center">
-                                        <a href="{{ asset('storage/invoices/' . $invoice->download_url)  }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mr-2" rel="noopener noreferrer">Download PDF</a>
+                                        <a href="{{ asset('storage/invoices/' . $invoice->download_url)  }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mx-2" rel="noopener noreferrer">View</a>
                                     </td>
                                     <td class="border py- px-4 text-center">
                                         <div class="flex justify-center space-x-2">
