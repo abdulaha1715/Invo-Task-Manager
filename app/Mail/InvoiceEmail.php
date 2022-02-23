@@ -33,12 +33,15 @@ class InvoiceEmail extends Mailable implements ShouldQueue
         $invoice    = $this->data['invoice'];
         $client     = $this->data['invoice']->client;
         $invoice_id = $this->data['invoice_id'];
-        $pdf        = $this->data['pdf'];
+        $pdf        = public_path('storage/invoices/'.$invoice->download_url);
+
+        // $pdf        = $this->data['pdf'];
 
         return $this->markdown('email.invoice')
             ->from($user->email, $user->name)
             ->to($client->email, $client->name)
             ->subject($invoice_id)
-            ->attachData($pdf, $invoice->download_url, [ 'mime' =>'application/pdf' ]);
+            ->attach($pdf , [ 'mime' => 'application/pdf',]);
+            // ->attachData($pdf, $invoice->download_url, [ 'mime' =>'application/pdf' ]);
     }
 }

@@ -162,7 +162,7 @@ class InvoiceController extends Controller
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'invoice'    => $invoice,
-            'pdf'        => $pdf
+            // 'pdf'        => $pdf
         ];
 
         Mail::send(new InvoiceEmail($data));
