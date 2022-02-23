@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class InvoiceEmail extends Mailable implements ShouldQueue
+class InvoiceEmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data;
@@ -35,13 +35,10 @@ class InvoiceEmail extends Mailable implements ShouldQueue
         $invoice_id = $this->data['invoice_id'];
         $pdf        = public_path('storage/invoices/'.$invoice->download_url);
 
-        // $pdf        = $this->data['pdf'];
-
         return $this->markdown('email.invoice')
             ->from($user->email, $user->name)
             ->to($client->email, $client->name)
             ->subject($invoice_id)
-            ->attach($pdf , [ 'mime' => 'application/pdf',]);
-            // ->attachData($pdf, $invoice->download_url, [ 'mime' =>'application/pdf' ]);
+            ->attach($pdf , [ 'mime' => 'application/pdf' ]);
     }
 }

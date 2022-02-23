@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\InvoiceMailJob;
 use App\Mail\InvoiceEmail;
 use App\Models\Client;
 use App\Models\Invoice;
@@ -156,25 +157,14 @@ class InvoiceController extends Controller
      */
     public function sendEmail(Invoice $invoice) {
 
-        $pdf = Storage::get('public/invoices/'.$invoice->download_url);
-
         $data = [
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'invoice'    => $invoice,
-            // 'pdf'        => $pdf
         ];
 
-        Mail::send(new InvoiceEmail($data));
-
-        // Mail::send('emails.invoice', $data, function ($message) use ($invoice, $pdf) {
-        //     $message->from(Auth::user()->email, Auth::user()->name);
-        //     $message->to($invoice->client->email, $invoice->client->name);
-        //     $message->subject('Abnipes - '. $invoice->invoice_id);
-        //     $message->attachData($pdf, $invoice->download_url, [
-        //         'mime' =>'application/pdf'
-        //     ]);
-        // });
+        // InvoiceMailJob::dispatch($data);
+        dispatch(new InvoiceMailJob($data));
 
         $invoice->update([
             'email_sent' => 'yes'
