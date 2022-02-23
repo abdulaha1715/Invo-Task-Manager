@@ -22,7 +22,7 @@
                                 <th class="border py-2 w-1/4">Client</th>
                                 <th class="border py-2 w-1/6">Status</th>
                                 <th class="border py-2 w-1/6">Email Send</th>
-                                <th class="border py-2">Preview</th>
+                                <th class="border py-2 px-2">Preview</th>
                                 <th class="border py-2 w-1/3">Action</th>
                             </tr>
                         </thead>
@@ -68,7 +68,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="border py-6 text-center text-xl">No Invoice Found!</td>
+                                    <td colspan="6" class="border py-6 text-center text-xl">No Invoice Found!</td>
                                 </tr>
                             @endforelse
 
