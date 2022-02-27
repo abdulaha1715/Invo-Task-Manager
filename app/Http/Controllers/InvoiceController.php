@@ -20,8 +20,25 @@ class InvoiceController extends Controller
      * Display invoices
      */
     public function index(Request $request) {
+        $invoices = Invoice::with('client')->latest();
+
+        if (!empty($request->client_id)) {
+            $invoices = $invoices->where('client_id', $request->client_id);
+        }
+
+        if (!empty($request->status)) {
+            $invoices = $invoices->where('status', $request->status);
+        }
+
+        if (!empty($request->emailSend)) {
+            $invoices = $invoices->where('email_sent', $request->emailSend);
+        }
+
+        $invoices = $invoices->paginate(10);
+
         return view('invoice.index')->with([
-            'invoices' => Invoice::with('client')->latest()->paginate(10),
+            'clients'  => Client::where('user_id', Auth::user()->id)->get(),
+            'invoices' => $invoices
         ]);
     }
 
@@ -81,18 +98,6 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Preview function
-     * Preview invoice
-     */
-    public function preview(Request $request) {
-        // return view('invoice.preview')->with([
-        //     'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
-        //     'user'  => Auth::user(),
-        //     'tasks' => $this->getInvoiceData($request),
-        // ]);
-    }
-
-    /**
      * Generate function
      * Insert invoice PDF
      * Store invoice PDF
@@ -103,9 +108,9 @@ class InvoiceController extends Controller
         $tasks = Task::whereIn('id', $request->invoices_ids)->get();
 
         $pdf_data = [
-            'invoice_no'  => $invoice_no,
-            'user'  => Auth::user(),
-            'tasks' => $tasks,
+            'invoice_no' => $invoice_no,
+            'user'       => Auth::user(),
+            'tasks'      => $tasks,
         ];
 
         // Generate PDF
@@ -146,9 +151,9 @@ class InvoiceController extends Controller
             $tasks = Task::whereIn('id', $request->invoices_ids)->get();
 
             return view('invoice.preview')->with([
-                'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
-                'user'  => Auth::user(),
-                'tasks' => $tasks,
+                'invoice_no' => 'INVO_' . rand(253684, 2584698457),
+                'user'       => Auth::user(),
+                'tasks'      => $tasks,
             ]);
         }
     }
@@ -163,7 +168,7 @@ class InvoiceController extends Controller
             'status' => 'paid'
         ]);
 
-        return redirect()->route('invoice.index')->with('success', "Invoice Payment mark as Paid!");
+        return redirect()->route('invoice.index')->with('success', "Invoice Payment marked as Paid!");
     }
 
     /**

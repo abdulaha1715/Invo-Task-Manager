@@ -12,8 +12,72 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <div class="mb-6 py-10 px-10 bg-white overflow-hidden shadow-sm sm:rounded-lg {{ request('client_id') || request('status')  || request('emailSend') ? '' : 'hidden' }}" id="task_filter">
+                <h2 class="font-bold mb-6 text-center">Filter Invoices </h2>
+                <form action="{{ route('invoice.index') }}" method="GET">
+
+                    <div class="flex mt-6 justify-between items-end mb-10">
+                        <div class="flex-1 mr-4">
+
+                            @error('client_id')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                            @enderror
+
+                            <label for="client_id" class="formLabel">Client Name</label>
+
+                            <select name="client_id" id="client_id" class="formInput">
+                                <option value="">Select Client</option>
+                                @foreach ($clients as $client)
+                                    <option value="{{ $client->id }}" {{ old('client_id') == $client->id || request('client_id') == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                        <div class="flex-1 mr-4">
+
+                            @error('status')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                            @enderror
+
+                            <label for="status" class="formLabel">Select Status</label>
+
+                            <select name="status" id="status" class="formInput">
+                                <option value="">Select Status</option>
+                                <option value="paid" {{ old('status') == 'paid' || request('status') == 'paid' ? 'selected' : '' }}>Paid</option>
+                                <option value="unpaid" {{ old('status') == 'unpaid' || request('status') == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                            </select>
+                        </div>
+
+                        <div class="flex-1 mr-4">
+
+                            @error('fromDate')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                            @enderror
+
+                            <label for="emailSend" class="formLabel">Email Send</label>
+
+                            <select name="emailSend" id="emailSend" class="formInput">
+                                <option value="">Select Status</option>
+                                <option value="yes" {{ old('emailSend') == 'yes' || request('emailSend') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                <option value="no" {{ old('emailSend') == 'no' || request('emailSend') == 'no' ? 'selected' : '' }}>No</option>
+                            </select>
+                        </div>
+
+                        <div class="flex-1 mr-4">
+                            <button type="submit" class="px-8 py-3 font-bold text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+
+                    <div class="text-right">
+                        <button type="submit" id="task_filter_trigger" class="px-4 py-3 text-white bg-green-400 mb-10">{{ request('client_id') || request('status')  || request('emailSend') ? 'Close Filter' : 'Filter' }}</button>
+                    </div>
 
                     <table class="w-full border-collapse">
                         <thead>
