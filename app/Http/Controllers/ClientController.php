@@ -80,7 +80,10 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+        return view('client.profile')->with([
+            'client'    => $client,
+            'countries' => $this->countries_list
+        ]);
     }
 
     /**

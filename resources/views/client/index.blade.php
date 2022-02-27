@@ -44,7 +44,7 @@
                                         <img src="{{ getImageUrl($client->avatar) }}" width="80" class="mx-auto rounded" alt="">
                                     </td>
                                     <td class="border py-2 px-2 text-left">
-                                        <p class="font-bold text-2xl">{{ $client->name }}</p>
+                                        <p class="font-bold text-2xl"><a class="hover:text-purple-600 font-semibold" href="{{ route('client.show', $client) }}">{{ $client->name }}</a></p>
                                         <p class="font-bold">{{ $client->username }}</p>
                                         <p class="font-bold">{{ $client->email }}</p>
                                     </td>
