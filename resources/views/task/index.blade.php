@@ -117,7 +117,7 @@
                                         <a href="{{ route('task.show', $task->slug) }}" class="text-base font-bold hover:text-emerald-600">{{ $task->name }}</a>
                                     </td>
                                     <td class="border py-2 text-center">
-                                        <a class="text-emerald-500 hover:underline text-sm" href="{{ route('task.index') }}?client_id={{ $task->client->id }}">{{ $task->client->name }}</a>
+                                        <a class="hover:text-emerald-500 text-sm" href="{{ route('invoice.index') }}?client_id={{ $task->client->id }}">{{ $task->client->name }}</a>
                                     </td>
                                     <td class="border py-2 text-center text-sm">
                                         {{ $task->price }}

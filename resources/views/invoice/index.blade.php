@@ -87,7 +87,7 @@
                                 <th class="border py-2 w-1/6">Status</th>
                                 <th class="border py-2 w-1/6">Email Send</th>
                                 <th class="border py-2 px-2">Preview</th>
-                                <th class="border py-2 w-1/3">Action</th>
+                                <th class="border py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,33 +95,33 @@
                             @forelse ($invoices as $invoice)
                                 <tr>
                                     <td class="border py-2 text-center">
-                                        {{ $invoice->invoice_id }}
+                                        <a href="{{ asset('storage/invoices/' . $invoice->download_url)  }}" target="_blank" class="hover:text-sky-400" >{{ $invoice->invoice_id }}</a>
                                     </td>
                                     <td class="border py-2 text-center">
-                                        {{ $invoice->client->name }}
+                                        <a class="hover:text-emerald-500 " href="{{ route('task.index') }}?client_id={{ $invoice->client->id }}">{{ $invoice->client->name }}</a>
                                     </td>
-                                    <td class="border py-2 text-center capitalize">
+                                    <td class="border py-2 px-2 text-center capitalize">
                                         {{ $invoice->status }}
+
+                                        @if ($invoice->status == 'unpaid')
+                                            <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Did you get Paid?');">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="text-white w-full bg-green-500 px-3 py-1">Paid</button>
+                                            </form>
+                                        @endif
                                     </td>
-                                    <td class="border py-2 text-center capitalize">
+                                    <td class="border py-2 px-2 text-center capitalize">
                                         {{ $invoice->email_sent }}
+                                        @if ($invoice->email_sent == 'no')
+                                            <a href="{{ route('invoice.sendemail', $invoice) }}" class="text-white block w-full bg-emerald-500 px-3 py-1">Send Email</a>
+                                        @endif
                                     </td>
                                     <td class="border py-2 text-center">
                                         <a href="{{ asset('storage/invoices/' . $invoice->download_url)  }}" target="_blank" class="text-white bg-sky-300 hover:bg-sky-400 transition-all px-3 py-1 mx-2" rel="noopener noreferrer">View</a>
                                     </td>
-                                    <td class="border py- px-4 text-center">
+                                    <td class="border py-2 text-center">
                                         <div class="flex justify-center space-x-2">
-
-                                            <a href="{{ route('invoice.sendemail', $invoice) }}" class="text-white bg-emerald-500 px-3 py-1">Send Email</a>
-
-                                            @if ($invoice->status == 'unpaid')
-                                                <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" onsubmit="return confirm('Did you get Paid?');">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="text-white bg-green-500 px-3 py-1">Paid</button>
-                                                </form>
-                                            @endif
-
                                             <form action="{{ route('invoice.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('Do you want to delete?');">
                                                 @csrf
                                                 @method('DELETE')
