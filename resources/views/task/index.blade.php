@@ -117,15 +117,23 @@
                                         <a href="{{ route('task.show', $task->slug) }}" class="text-base font-bold hover:text-emerald-600">{{ $task->name }}</a>
                                     </td>
                                     <td class="border py-2 text-center">
-                                        <a class="text-emerald-500 hover:underline text-sm" href="{{ route('searchTaskByClient',$task->client) }}">{{ $task->client->name }}</a>
+                                        <a class="text-emerald-500 hover:underline text-sm" href="{{ route('task.index') }}?client_id={{ $task->client->id }}">{{ $task->client->name }}</a>
                                     </td>
                                     <td class="border py-2 text-center text-sm">
                                         {{ $task->price }}
                                     </td>
-                                    <td class="border py-2 text-center capitalize text-sm">
+                                    <td class="border py-2 px-2 text-center capitalize text-sm">
                                         {{ $task->status }}
+
+                                        @if ($task->status == 'pending')
+                                            <form action="{{ route('markAsComplete', $task->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="text-white w-full bg-green-500 px-3 py-1">Complete</button>
+                                            </form>
+                                        @endif
                                     </td>
-                                    <td class="border py-2 text-center">
+                                    <td class="border py-2 px-2 text-center">
                                         <div class="flex justify-center">
                                             <a href="{{ route('task.edit', $task->id) }}" class="text-white bg-emerald-800 px-3 py-1 mr-2">Edit</a>
 

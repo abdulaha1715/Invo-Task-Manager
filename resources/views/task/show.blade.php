@@ -28,7 +28,7 @@
 
                                 @if ($task->status == 'pending')
                                     <div class="">
-                                        <form action="{{ route('markAsComplete', $task) }}" method="POST">
+                                        <form action="{{ route('markAsComplete', $task) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                             @csrf
                                             @method('PUT')
                                             <button class="capitalize font-bold bg-violet-400 hover:bg-violet-600 transition-all text-white text-base w-48 px-6 py-3 text-center mt-2 rounded-md inline-block cursor-pointer">Mark as Complate</button>
