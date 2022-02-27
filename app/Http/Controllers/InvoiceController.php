@@ -100,11 +100,12 @@ class InvoiceController extends Controller
     public function generate(Request $request) {
 
         $invoice_no  = 'INVO_' . rand(253684, 2584698457);
+        $tasks = Task::whereIn('id', $request->invoices_ids)->get();
 
         $pdf_data = [
             'invoice_no'  => $invoice_no,
             'user'  => Auth::user(),
-            'tasks' => $this->getInvoiceData($request),
+            'tasks' => $tasks,
         ];
 
         // Generate PDF
@@ -116,7 +117,7 @@ class InvoiceController extends Controller
         // nsert PDF into Database
         Invoice::create([
             'invoice_id'   => $invoice_no,
-            'client_id'    => $request->client_id,
+            'client_id'    => $tasks->first()->client->id,
             'user_id'      => Auth::user()->id,
             'status'       => 'unpaid',
             'download_url' => $invoice_no. '.pdf',
