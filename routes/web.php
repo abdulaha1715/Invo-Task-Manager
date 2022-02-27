@@ -37,12 +37,12 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
     Route::put('task/{task}/complete', [TaskController::class, 'markAsComplete'])->name('markAsComplete');
 
     // Invocies Route
-    Route::prefix('invoice')->group(function() {
+    Route::prefix('invoices')->group(function() {
         Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
         Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
         Route::put('{invoice}/update', [InvoiceController::class, 'update'])->name('invoice.update');
         Route::get('preview', [InvoiceController::class, 'preview'])->name('preview.invoice');
-        Route::get('generate', [InvoiceController::class, 'generate'])->name('invoice.generate');
+        Route::get('invoice', [InvoiceController::class, 'invoice'])->name('invoice');
         Route::delete('{invoice}/delete', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
         Route::get('email-send/{invoice:invoice_id}', [InvoiceController::class, 'sendEmail'])->name('invoice.sendemail');
     });

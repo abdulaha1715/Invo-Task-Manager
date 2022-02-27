@@ -85,11 +85,11 @@ class InvoiceController extends Controller
      * Preview invoice
      */
     public function preview(Request $request) {
-        return view('invoice.preview')->with([
-            'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
-            'user'  => Auth::user(),
-            'tasks' => $this->getInvoiceData($request),
-        ]);
+        // return view('invoice.preview')->with([
+        //     'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
+        //     'user'  => Auth::user(),
+        //     'tasks' => $this->getInvoiceData($request),
+        // ]);
     }
 
     /**
@@ -123,8 +123,34 @@ class InvoiceController extends Controller
             'download_url' => $invoice_no. '.pdf',
         ]);
 
-        return redirect()->route('invoice.index')->with('success', "Invoice Created!");
+    }
 
+
+    /**
+     * Method invoice
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return void
+     */
+    public function invoice(Request $request)
+    {
+        // dd($request->all());
+        if (!empty($request->generate) && $request->generate == 'yes') {
+            $this->generate($request);
+
+            return redirect()->route('invoice.index')->with('success', "Invoice Created!");
+        }
+
+        if (!empty($request->preview) && $request->preview == 'yes') {
+            $tasks = Task::whereIn('id', $request->invoices_ids)->get();
+
+            return view('invoice.preview')->with([
+                'invoice_no'  => 'INVO_' . rand(253684, 2584698457),
+                'user'  => Auth::user(),
+                'tasks' => $tasks,
+            ]);
+        }
     }
 
     /**
