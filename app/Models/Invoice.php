@@ -11,6 +11,7 @@ class Invoice extends Model
 
     protected $guarded = ['id','created_at', 'updated_at'];
 
+    // Relation with Client
     public function client() {
         return $this->belongsTo(Client::class, 'client_id', 'id');
     }

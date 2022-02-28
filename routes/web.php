@@ -4,6 +4,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\TaskController;
 use App\Mail\InvoiceEmail;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +23,13 @@ Route::get('/', function () {
 Route::prefix('/')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $user = User::find(Auth::user()->id);
+        return view('dashboard')->with([
+            'user'            => $user,
+            'pending_tasks'   => $user->tasks->where('status', 'pending'),
+            'paid_invoices'   => $user->invoices->where('status', 'paid'),
+            'unpaid_invoices' => $user->invoices->where('status', 'unpaid'),
+        ]);
     })->name('dashboard');
 
     // Client Route

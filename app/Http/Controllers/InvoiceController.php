@@ -125,6 +125,7 @@ class InvoiceController extends Controller
             'client_id'    => $tasks->first()->client->id,
             'user_id'      => Auth::user()->id,
             'status'       => 'unpaid',
+            'amount'       => $tasks->sum('price'),
             'download_url' => $invoice_no. '.pdf',
         ]);
 

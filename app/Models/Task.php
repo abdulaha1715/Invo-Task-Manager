@@ -13,6 +13,7 @@ class Task extends Model
 
     protected $with = ['client'];
 
+    // Relation with Client
     public function client() {
         return $this->belongsTo(Client::class, 'client_id', 'id');
     }

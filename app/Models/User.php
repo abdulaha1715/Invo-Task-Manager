@@ -41,4 +41,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Relation with Client
+    public function clients() {
+        return $this->hasMany(Client::class, 'user_id', 'id');
+    }
+
+    // Relation with Task
+    public function tasks() {
+        return $this->hasMany(Task::class, 'user_id', 'id');
+    }
+
+    // Relation with Invoice
+    public function invoices() {
+        return $this->hasMany(Invoice::class, 'user_id', 'id');
+    }
 }
