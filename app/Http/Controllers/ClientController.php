@@ -80,9 +80,14 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
+        $invoices = $client->load('tasks', 'invoices');
+
         return view('client.profile')->with([
-            'client'    => $client,
-            'countries' => $this->countries_list
+            'client'        => $client,
+            'countries'     => $this->countries_list,
+            'pending_tasks' => $client->tasks->where('status', 'pending'),
+            'paid_invoices' => $client->invoices->where('status', 'paid'),
+            'invoices'      => $invoices,
         ]);
     }
 

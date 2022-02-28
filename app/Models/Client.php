@@ -15,4 +15,7 @@ class Client extends Model
     public function tasks() {
         return $this->hasMany(Task::class, 'client_id', 'id');
     }
+    public function invoices() {
+        return $this->hasMany(Invoice::class, 'client_id', 'id');
+    }
 }
