@@ -73,54 +73,67 @@
 
                     @if ($tasks)
                     <div class="mt-10">
-                        <table class="w-full border-collapse">
-                            <thead>
-                                <tr>
-                                    <th class="border py-2 w-1/6">Select</th>
-                                    <th class="border py-2 w-1/6">Id</th>
-                                    <th class="border py-2 w-1/6">Name</th>
-                                    <th class="border py-2 w-1/4">Client</th>
-                                    <th class="border py-2 w-1/5">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <form action="{{ route('invoice') }}" method="GET" id="tasksInvoiceForm">
+                        @csrf
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="border py-2 w-1/6">Select</th>
+                                        <th class="border py-2 w-1/6">Id</th>
+                                        <th class="border py-2 w-1/6">Name</th>
+                                        <th class="border py-2 w-1/4">Client</th>
+                                        <th class="border py-2 w-1/5">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                                <form action="{{ route('invoice') }}" method="GET" id="tasksInvoiceForm">
-                                    @csrf
 
-                                    @foreach ($tasks as $task)
-                                        <tr>
-                                            <td class="border py-2 text-center">
-                                                <input type="checkbox" name="invoices_ids[]" value="{{ $task->id }}" checked >
-                                            </td>
-                                            <td class="border py-2 text-center">
-                                                {{ $task->id }}
-                                            </td>
-                                            <td class="border py-2 text-center">
-                                                {{ $task->name }}
-                                            </td>
-                                            <td class="border py-2 text-center">
-                                                {{ $task->client->name }}
-                                            </td>
-                                            <td class="border py-2 text-center capitalize">
-                                                {{ $task->status }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </form>
+                                        @foreach ($tasks as $task)
+                                            <tr>
+                                                <td class="border py-2 text-center">
+                                                    <input type="checkbox" name="invoices_ids[]" value="{{ $task->id }}" checked >
+                                                </td>
+                                                <td class="border py-2 text-center">
+                                                    {{ $task->id }}
+                                                </td>
+                                                <td class="border py-2 text-center">
+                                                    {{ $task->name }}
+                                                </td>
+                                                <td class="border py-2 text-center">
+                                                    {{ $task->client->name }}
+                                                </td>
+                                                <td class="border py-2 text-center capitalize">
+                                                    {{ $task->status }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                            <div class="mt-6 flex justify-between ">
+                                <div class="flex space-x-3">
+                                    <div class="">
+                                        <label for="discount">Discount </label>
+                                        <input type="number" name="discount" id="discount" placeholder="Tyoe discount">
+                                    </div>
 
-                    <div class="flex mt-5 justify-center space-x-5">
-                        {{-- <a href="{{ route('preview.invoice') }}{{ '?client_id=' . request('client_id') . '&status=' . request('status') . '&fromDate=' . request('fromDate') . '&endDate=' . request('endDate') }}" class="px-3 py-2 bg-teal-500 text-white">Preview</a> --}}
+                                    <div class="">
+                                        <select name="discount_type" id="discount_type">
+                                            <option value="%">%</option>
+                                            <option value="$">$</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <div class="flex mt-5 mb-6 justify-center space-x-5">
+                                        <button type="submit" form="tasksInvoiceForm" name="preview" value="yes" class="px-3 py-2 bg-teal-500 text-white">Preview</button>
 
-                        {{-- <a href="{{ route('invoice.generate') }}{{ '?client_id=' . request('client_id') . '&status=' . request('status') . '&fromDate=' . request('fromDate') . '&endDate=' . request('endDate') }}" class="px-3 py-2 bg-blue-500 text-white">Generate PDF</a> --}}
+                                        <button type="submit" form="tasksInvoiceForm" name="generate" value="yes" class="px-3 py-2 bg-blue-500 text-white">Generate PDF</button>
+                                    </div>
+                                </div>
 
-                        <button type="submit" form="tasksInvoiceForm" name="preview" value="yes" class="px-3 py-2 bg-teal-500 text-white">Preview</button>
-
-                        <button type="submit" form="tasksInvoiceForm" name="generate" value="yes" class="px-3 py-2 bg-blue-500 text-white">Generate PDF</button>
+                            </div>
+                        </form>
                     </div>
 
                     @endif

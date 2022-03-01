@@ -189,7 +189,7 @@
                 <thead>
                     <tr>
                         <th>Description</th>
-                        <th style="text-align: center">Discount ($)</th>
+                        {{-- <th style="text-align: center">Discount ($)</th> --}}
                         <th style="text-align: right">Amount ($)</th>
                     </tr>
                 </thead>
@@ -198,7 +198,7 @@
                     @foreach ($tasks as $task)
                     <tr>
                         <td>{{ $task->name }}</td>
-                        <td style="text-align:center">0</td>
+                        {{-- <td style="text-align:center">0</td> --}}
                         <td style="text-align:right">{{ $task->price }}</td>
                     </tr>
                     @endforeach
@@ -212,13 +212,24 @@
                     <span>Subtotal: </span>
                     <strong> ${{ number_format( $tasks->sum('price'), 0 ) }} </strong>
                 </div>
+
+                @php
+                    $realdiscount = $discount;
+                    if($discount_type == '%') {
+                        $discount = ( $discount * $tasks->sum('price') ) / 100;
+                    } else {
+                        $discount = $discount;
+                    }
+                @endphp
+
                 <div class="single_footer">
                     <span>Discount: </span>
-                    <strong>0</strong>
+                    <strong>{{ $discount_type == '%' ? '('.$realdiscount.'%)' : '' }} ${{ $discount }}</strong>
+                    {{-- <strong>{{ $discount_type == '$' ? $discount_type . $discount : $discount . $discount_type }}</strong> --}}
                 </div>
                 <div class="single_footer">
                     <span>Total: </span>
-                    <strong> ${{ number_format( $tasks->sum('price'), 0 ) }} </strong>
+                    <strong> ${{ number_format( $tasks->sum('price') - $discount, 0 ) }} </strong>
                 </div>
             </div>
             <div class="amount_total">
