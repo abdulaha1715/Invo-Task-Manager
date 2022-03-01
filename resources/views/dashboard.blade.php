@@ -56,9 +56,44 @@
 
                     <ul class="bg-amber-400 px-5 py-4">
                         @forelse ($paid_invoices->slice(0,8) as $paid_invoice)
-                            <li class="flex justify-between space-x-10 items-center"><span class="text-sm">{{ $paid_invoice->client->updated_at->format('d M, Y') }}</span><span>{{ $paid_invoice->client->name }}</span><span>${{ $paid_invoice->amount }}</span></li>
+                            <li class="flex justify-between space-x-10 items-center">
+                                <span class="text-sm">{{ $paid_invoice->client->updated_at->format('d M, Y') }}</span>
+                                <span>{{ $paid_invoice->client->name }}</span>
+                                <span>${{ $paid_invoice->amount }}</span>
+                            </li>
                         @empty
                             <li>No Paid Invoice Found!</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="container mx-auto">
+            <div class="flex justify-between space-x-5">
+                <div class="prose max-w-none flex-1">
+                    <h3 class="text-white">Todo:</h3>
+                    <ul class="bg-cyan-600 px-5 py-4 inline-block rounded-md list-none">
+                        @forelse ($pending_tasks->slice(0,5) as $task)
+                            <li><a class="text-white hover:text-black transition-all duration-300"  href="{{ route('task.show',$task->slug) }}">{{ $task->name }}</a></li>
+                        @empty
+                        <li class="text-white">No tasks found!</li>
+                        @endforelse
+                    </ul>
+                </div>
+                <div class="prose max-w-none flex-1">
+                    <h3 class="text-white">Payment History:</h3>
+
+                    <ul class="bg-cyan-600 text-white rounded-md px-5 py-4  list-none">
+                        @forelse ($paid_invoices->slice(0,5) as $invoice)
+                        <li class="flex justify-between items-center">
+                            <span class="text-sm">{{ $invoice->updated_at->format('d M, Y') }}</span>
+                            <span class="text-left flex-1 mx-5">{{ $invoice->client->name }}</span>
+                            <span class="text-left">${{ $invoice->amount }}</span></li>
+                        @empty
+                        <li>No paid invoice found!</li>
                         @endforelse
                     </ul>
                 </div>

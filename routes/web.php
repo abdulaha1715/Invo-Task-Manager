@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TaskController;
-use App\Mail\InvoiceEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -49,17 +49,8 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
         Route::get('email-send/{invoice:invoice_id}', [InvoiceController::class, 'sendEmail'])->name('invoice.sendemail');
     });
 
-    // Route::get('/email', function () {
-
-    //     $data = [
-    //         'user'       => '',
-    //         'invoice_id' => '',
-    //         'invoice'    => '',
-    //         'pdf'        => ''
-    //     ];
-
-    //     return new InvoiceEmail($data);
-    // });
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
 
 
 });
