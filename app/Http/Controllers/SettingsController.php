@@ -29,6 +29,7 @@ class SettingsController extends Controller
 
         $user = User::find(Auth::id());
         $thumbnail = $user->thumbnail;
+
         if ( !empty($request->file('thumbnail')) ) {
 
             Storage::delete('public/users/'.$thumbnail);
@@ -38,13 +39,21 @@ class SettingsController extends Controller
             $request->file('thumbnail')->storeAs('public/users', $thumbnail);
         }
 
+        if ( !empty($request->file('invoice_logo')) ) {
+
+            $invoice_logo = 'Invoice-logo.png';
+
+            $request->file('invoice_logo')->storeAs('public/uploads', $invoice_logo);
+        }
+
         $user->update([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'company'   => $request->company,
-            'country'   => $request->country,
-            'thumbnail' => $thumbnail,
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'phone'        => $request->phone,
+            'company'      => $request->company,
+            'country'      => $request->country,
+            'thumbnail'    => $thumbnail,
+            'invoice_logo' => $invoice_logo,
         ]);
 
         return redirect()->back()->with('success', "User Updated!");
