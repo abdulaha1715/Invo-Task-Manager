@@ -58,7 +58,7 @@ class TaskController extends Controller
     public function create()
     {
         return view('task.create')->with([
-            'clients' => Client::all(),
+            'clients' => Client::where('user_id', Auth::id())->get(),
         ]);
     }
 

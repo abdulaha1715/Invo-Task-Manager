@@ -19,44 +19,56 @@ class SettingsController extends Controller
     public function update(Request $request)
     {
 
+        // dd($request->all());
         $request->validate([
             'name'    => ['required', 'max:255', 'string'],
             'email'   => ['required', 'max:255', 'string', 'email', 'unique:clients'],
-            'phone'   => ['max:255', 'string'],
-            'company' => ['max:255', 'string', 'not_in:none'],
-            'country' => ['not_in:none', 'string'],
+            'phone'   => ['max:255', 'string', 'nullable'],
+            'company' => ['max:255', 'string', 'not_in:none', 'nullable'],
+            'country' => ['not_in:none', 'string', 'nullable'],
         ]);
 
-        $user = User::find(Auth::id());
-        $thumbnail = $user->thumbnail;
+        try {
+            $user         = User::find(Auth::id());
+            $thumbnail    = $user->thumbnail;
+            $invoice_logo = $user->invoice_logo;
 
-        if ( !empty($request->file('thumbnail')) ) {
+            if ( !empty($request->file('thumbnail')) ) {
 
-            Storage::delete('public/users/'.$thumbnail);
+                Storage::delete('public/users/'.$thumbnail);
 
-            $thumbnail = time() . '-' . $request->file('thumbnail')->getClientOriginalName();
+                $filename = strtolower(str_replace(' ', '-', $request->file('thumbnail')->getClientOriginalName()));
 
-            $request->file('thumbnail')->storeAs('public/users', $thumbnail);
+                $thumbnail = time() .  '-'  . $filename;
+
+                $request->file('thumbnail')->storeAs('public/users', $thumbnail);
+            }
+
+            if ( !empty($request->file('invoice_logo')) ) {
+
+                Storage::delete('public/users/Invoice-logo.png');
+
+                $invoice_logo = 'Invoice-logo.png';
+
+                $request->file('invoice_logo')->storeAs('public/users', $invoice_logo);
+            }
+
+            $user->update([
+                'name'         => $request->name,
+                'email'        => $request->email,
+                'phone'        => $request->phone,
+                'company'      => $request->company,
+                'country'      => $request->country,
+                'thumbnail'    => $thumbnail,
+                'invoice_logo' => $invoice_logo,
+            ]);
+
+            return redirect()->back()->with('success', "User Updated!");
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
         }
 
-        if ( !empty($request->file('invoice_logo')) ) {
 
-            $invoice_logo = 'Invoice-logo.png';
-
-            $request->file('invoice_logo')->storeAs('public/uploads', $invoice_logo);
-        }
-
-        $user->update([
-            'name'         => $request->name,
-            'email'        => $request->email,
-            'phone'        => $request->phone,
-            'company'      => $request->company,
-            'country'      => $request->country,
-            'thumbnail'    => $thumbnail,
-            'invoice_logo' => $invoice_logo,
-        ]);
-
-        return redirect()->back()->with('success', "User Updated!");
     }
 
 

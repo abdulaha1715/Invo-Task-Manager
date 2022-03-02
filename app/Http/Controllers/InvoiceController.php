@@ -20,7 +20,7 @@ class InvoiceController extends Controller
      * Display invoices
      */
     public function index(Request $request) {
-        $invoices = Invoice::with('client')->latest();
+        $invoices = Invoice::with('client')->where('user_id', Auth::id())->latest();
 
         if (!empty($request->client_id)) {
             $invoices = $invoices->where('client_id', $request->client_id);
@@ -187,7 +187,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice) {
         $invoice->update([
-            'status' => 'paid'
+            'status' => $invoice->status == 'unpaid' ? 'paid' : 'unpaid'
         ]);
 
         return redirect()->route('invoice.index')->with('success', "Invoice Payment marked as Paid!");
@@ -215,12 +215,13 @@ class InvoiceController extends Controller
             'user'       => Auth::user(),
             'invoice_id' => $invoice->invoice_id,
             'invoice'    => $invoice,
+            'pdf'        => public_path('storage/invoices/'.$invoice->download_url),
         ];
 
         // InvoiceMailJob::dispatch($data);
         // dispatch(new InvoiceMailJob($data));
 
-        Mail::send(new InvoiceEmail($data));
+        Mail::to($invoice->client)->send(new InvoiceEmail($data));
 
         $invoice->update([
             'email_sent' => 'yes'

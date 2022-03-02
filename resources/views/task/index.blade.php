@@ -108,7 +108,7 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($tasks as $task)
+                            @forelse ($tasks as $task)
                                 <tr>
                                     <td class="border py-2 w-8 text-center">
                                         {{ $task->id }}
@@ -145,7 +145,12 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="border py-6 text-center text-xl">No Tasks Found!</td>
+                                </tr>
+                            @endforelse
 
                         </tbody>
                     </table>

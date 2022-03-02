@@ -36,7 +36,7 @@
                                 }
                             @endphp
 
-                            @foreach ($clients as $client)
+                            @forelse ($clients as $client)
                                 <tr>
                                     <td class="border py-2 w-8 text-center">
                                         {{ $client->id }}
@@ -74,7 +74,11 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="border py-6 text-center text-xl">No Client Found!</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
 

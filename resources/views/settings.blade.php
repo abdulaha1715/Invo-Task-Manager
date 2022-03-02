@@ -93,12 +93,11 @@
                                         <input type="file" class="flex-1" name="invoice_logo" id="logo">
                                     </div>
                                     <div class="border p-2">
-                                        {{-- @if (Auth::user()->invoice_logo !=null)
-                                        <img src="{{ asset('storage/uploads/Invoice-logo.png') }}" class="w-20" alt="">
+                                        @if (Auth::user()->invoice_logo != null)
+                                            <img src="{{ asset('storage/users/Invoice-logo.png') }}" class="w-20" alt="">
                                         @else
-                                        <img src="{{ asset('img/invo-mate.png') }}" class="w-20" alt="">
-                                        @endif --}}
-                                        <img src="{{ asset('storage/uploads/Invoice-logo.png') }}" class="w-20" alt="">
+                                            <img src="{{ asset('img/invo-mate.png') }}" class="w-20" alt="">
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="">
