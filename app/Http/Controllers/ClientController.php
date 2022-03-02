@@ -157,10 +157,19 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        Storage::delete('public/uploads/'.$client->avatar);
 
-        $client->delete();
-        return redirect()->route('client.index')->with('success', "Client Deleted");
+        $pending_task = $client->tasks->where('status', 'pending');
+
+        if (count($pending_task) == 0) {
+            Storage::delete('public/uploads/'.$client->avatar);
+            $client->delete();
+        } else {
+            $client->update([
+                'status' => 'inactive'
+            ]);
+        }
+
+        return redirect()->route('client.index')->with('success', "Client Soft Deleted");
     }
 
     public $countries_list = array(

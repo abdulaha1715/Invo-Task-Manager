@@ -32,42 +32,17 @@
 
                 <h2 class="text-white font-bold text-2xl">Summery</h2>
 
-                {{-- <div class="grid grid-cols-4 gap-5 mt-6"> --}}
                 <div class="">
 
-                    {{-- <x-card text="Total Tasks" route="{{ route('task.index') }}" class="bg-gradient-to-tr from-cyan-300 to-white rounded-md" />
-
-                    <x-card text="Pending Tasks" route="{{ route('task.index') }}" class="bg-gradient-to-tl from-cyan-300 to-white rounded-md" />
-
-                    <x-card text="Total Invoice" route="{{ route('invoice.index') }}" class="bg-gradient-to-bl from-cyan-300 to-white rounded-md" />
-
-                    <x-card text="Paid Invoice" route="{{ route('invoice.index') }}" class="bg-gradient-to-br from-cyan-300 to-white rounded-md" /> --}}
-
                     <div class="grid grid-cols-4 gap-5 mt-6">
-                        <div class="bg-amber-300">
-                            <a href="{{ route('task.index') }}?client_id={{ $client->id }}" class="flex px-10 py-14 flex-col items-center">
-                                <h1 class="font-bold text-3xl">{{ count($client->tasks) }}</h1>
-                                <h2 class="text-emerald-900 font-black uppercase">Total Tasks</h2>
-                            </a>
-                        </div>
-                        <div class="bg-amber-300">
-                            <a href="{{ route('task.index') }}?client_id={{ $client->id }}&status=pending" class="flex px-10 py-14 flex-col items-center">
-                                <h1 class="font-bold text-3xl">{{ count($pending_tasks) }}</h1>
-                                <h2 class="text-emerald-900 font-black uppercase">Pending Tasks</h2>
-                            </a>
-                        </div>
-                        <div class="bg-amber-300">
-                            <a href="{{ route('invoice.index') }}?client_id={{ $client->id }}" class="flex px-10 py-14 flex-col items-center">
-                                <h1 class="font-bold text-3xl">{{ count($client->invoices) }}</h1>
-                                <h2 class="text-emerald-900 font-black uppercase">Total Invoice</h2>
-                            </a>
-                        </div>
-                        <div class="bg-amber-300">
-                            <a href="{{ route('invoice.index') }}?client_id={{ $client->id }}&status=paid" class="flex px-10 py-14 flex-col items-center">
-                                <h1 class="font-bold text-3xl">{{ count($paid_invoices) }}</h1>
-                                <h2 class="text-emerald-900 font-black uppercase">Paid Invoices</h2>
-                            </a>
-                        </div>
+                        <x-card text="Total Tasks" route="{{ route('task.index') }}" :count="count($client->tasks)" class="bg-amber-300" />
+
+                        <x-card text="Pending Tasks" route="{{ route('task.index') }}" :count="count($pending_tasks)" class="bg-amber-300" />
+
+                        <x-card text="Total Invoice" route="{{ route('invoice.index') }}" :count="count($client->invoices)" class="bg-amber-300" />
+
+                        <x-card text="Paid Invoice" route="{{ route('invoice.index') }}" :count="count($paid_invoices)" class="bg-amber-300" />
+
                     </div>
 
                 </div>

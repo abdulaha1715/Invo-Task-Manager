@@ -21,6 +21,7 @@
                                 <th class="border py-2 w-32">Avatar</th>
                                 <th class="border py-2">Name</th>
                                 <th class="border py-2">Country</th>
+                                <th class="border py-2 px-2">Status</th>
                                 <th class="border py-2">Total Task</th>
                                 <th class="border py-2 min-w-max">Action</th>
                             </tr>
@@ -50,6 +51,9 @@
                                     </td>
                                     <td class="border py-2 text-center">
                                         {{ $client->country }}
+                                    </td>
+                                    <td class="border px-2 py-2 text-center capitalize">
+                                        {{ $client->status }}
                                     </td>
                                     <td class="border py-2 text-center">
                                         <div class="">
