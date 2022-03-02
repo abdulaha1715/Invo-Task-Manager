@@ -51,24 +51,30 @@ class ClientController extends Controller
             'status'   => ['not_in:none', 'string'],
         ]);
 
-        $avatar = null;
-        if (!empty($request->file('avatar'))) {
-            $avatar = time() . '-' . $request->file('avatar')->getClientOriginalName();
-            $request->file('avatar')->storeAs('public/uploads', $avatar);
+        try {
+            $avatar = null;
+            if (!empty($request->file('avatar'))) {
+                $avatar = time() . '-' . $request->file('avatar')->getClientOriginalName();
+                $request->file('avatar')->storeAs('public/uploads', $avatar);
+            }
+
+            Client::create([
+                'name'     => $request->name,
+                'username' => $request->username,
+                'email'    => $request->email,
+                'phone'    => $request->phone,
+                'country'  => $request->country,
+                'avatar'   => $avatar,
+                'user_id'  => Auth::user()->id,
+                'status'   => $request->status,
+            ]);
+
+            return redirect()->route('client.index')->with('success', "Client Added Successfully!");
+        } catch (\Throwable $th) {
+            return redirect()->route('client.index')->with('error', $th->getMessage());
         }
 
-        Client::create([
-            'name'     => $request->name,
-            'username' => $request->username,
-            'email'    => $request->email,
-            'phone'    => $request->phone,
-            'country'  => $request->country,
-            'avatar'   => $avatar,
-            'user_id'  => Auth::user()->id,
-            'status'   => $request->status,
-        ]);
 
-        return redirect()->route('client.index')->with('success', "Client Added Successfully!");
 
     }
 
@@ -123,29 +129,35 @@ class ClientController extends Controller
             'avatar'   => ['image'],
         ]);
 
-        $avatar = $client->avatar;
+        try {
+            $avatar = $client->avatar;
 
-        if ( !empty($request->file('avatar')) ) {
+            if ( !empty($request->file('avatar')) ) {
 
-            Storage::delete('public/uploads/'.$avatar);
+                Storage::delete('public/uploads/'.$avatar);
 
-            $avatar = time() . '-' . $request->file('avatar')->getClientOriginalName();
+                $avatar = time() . '-' . $request->file('avatar')->getClientOriginalName();
 
-            $request->file('avatar')->storeAs('public/uploads', $avatar);
+                $request->file('avatar')->storeAs('public/uploads', $avatar);
+            }
+
+            Client::find($client->id)->update([
+                'name'     => $request->name,
+                'username' => $request->username,
+                'email'    => $request->email,
+                'phone'    => $request->phone,
+                'country'  => $request->country,
+                'avatar'   => $avatar,
+                'user_id'  => Auth::user()->id,
+                'status'   => $request->status,
+            ]);
+
+            return redirect()->route('client.index')->with('success', "Client Updated");
+        } catch (\Throwable $th) {
+            return redirect()->route('client.index')->with('error', $th->getMessage());
         }
 
-        Client::find($client->id)->update([
-            'name'     => $request->name,
-            'username' => $request->username,
-            'email'    => $request->email,
-            'phone'    => $request->phone,
-            'country'  => $request->country,
-            'avatar'   => $avatar,
-            'user_id'  => Auth::user()->id,
-            'status'   => $request->status,
-        ]);
 
-        return redirect()->route('client.index')->with('success', "Client Updated");
 
     }
 

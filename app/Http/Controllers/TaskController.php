@@ -74,17 +74,20 @@ class TaskController extends Controller
 
         $this->taskValidation($request);
 
-        Task::create([
-            'name'        => $request->name,
-            'slug'        => Str::slug($request->name),
-            'price'       => $request->price,
-            'client_id'   => $request->client_id,
-            'user_id'     => Auth::user()->id,
-            'description' => $request->description,
-        ]);
+        try {
+            Task::create([
+                'name'        => $request->name,
+                'slug'        => Str::slug($request->name),
+                'price'       => $request->price,
+                'client_id'   => $request->client_id,
+                'user_id'     => Auth::user()->id,
+                'description' => $request->description,
+            ]);
 
-
-        return redirect()->route('task.index')->with('success', "Task Created!");
+            return redirect()->route('task.index')->with('success', "Task Created!");
+        } catch (\Throwable $th) {
+            return redirect()->route('task.index')->with('error', $th->getMessage());
+        }
 
     }
 
@@ -142,17 +145,22 @@ class TaskController extends Controller
     {
         $this->taskValidation($request);
 
-        $task->update([
-            'name'        => $request->name,
-            'slug'        => Str::slug($request->name),
-            'price'       => $request->price,
-            'client_id'   => $request->client_id,
-            'user_id'     => Auth::user()->id,
-            'description' => $request->description,
-        ]);
+        try {
+            $task->update([
+                'name'        => $request->name,
+                'slug'        => Str::slug($request->name),
+                'price'       => $request->price,
+                'client_id'   => $request->client_id,
+                'user_id'     => Auth::user()->id,
+                'description' => $request->description,
+            ]);
 
 
-        return redirect()->route('task.index')->with('success', "Task Updated!");
+            return redirect()->route('task.index')->with('success', "Task Updated!");
+        } catch (\Throwable $th) {
+            return redirect()->route('task.index')->with('error', $th->getMessage());
+        }
+
     }
 
     /**
