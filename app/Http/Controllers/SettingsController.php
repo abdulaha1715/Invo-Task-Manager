@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
+    /**
+     * Display a listing of settings.
+     *
+     * @return view with countries
+     */
     public function index()
     {
         return view('settings')->with([
@@ -16,10 +21,17 @@ class SettingsController extends Controller
         ]);
     }
 
+    /**
+     * Update the specified settings.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request)
     {
-
         // dd($request->all());
+
+        // validation
         $request->validate([
             'name'    => ['required', 'max:255', 'string'],
             'email'   => ['required', 'max:255', 'string', 'email', 'unique:clients'],
@@ -29,10 +41,14 @@ class SettingsController extends Controller
         ]);
 
         try {
+            // get current user
             $user         = User::find(Auth::id());
+            // get default thumbnail
             $thumbnail    = $user->thumbnail;
+            // get default invoice logo
             $invoice_logo = $user->invoice_logo;
 
+            // upload new thumbnail
             if ( !empty($request->file('thumbnail')) ) {
 
                 Storage::delete('public/users/'.$thumbnail);
@@ -44,15 +60,14 @@ class SettingsController extends Controller
                 $request->file('thumbnail')->storeAs('public/users', $thumbnail);
             }
 
+            // upload new invoice logo
             if ( !empty($request->file('invoice_logo')) ) {
-
-                Storage::delete('public/users/Invoice-logo.png');
-
-                $invoice_logo = 'Invoice-logo.png';
+                $invoice_logo = time() . '-invoice-logo.png';
 
                 $request->file('invoice_logo')->storeAs('public/users', $invoice_logo);
             }
 
+            // update user data
             $user->update([
                 'name'         => $request->name,
                 'email'        => $request->email,
@@ -63,16 +78,16 @@ class SettingsController extends Controller
                 'invoice_logo' => $invoice_logo,
             ]);
 
+            // return response
             return redirect()->back()->with('success', "User Updated!");
         } catch (\Throwable $th) {
+            //throw $th;
             return redirect()->back()->with('error', $th->getMessage());
         }
 
-
     }
 
-
-
+    // Country List
     public $countries_list = array(
         "AF" => "Afghanistan",
         "AX" => "Aland Islands",

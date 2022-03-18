@@ -159,15 +159,15 @@
             </div>
             <div class="header_logo">
                 @if ( request('preview') == 'yes' )
-                    @if (Auth::user()->invoice_logo !=null)
-                        <img src="{{ asset('storage/uploads/'.Auth::user()->invoice_logo) }}" width="100" class="w-40" style="margin-left:auto">
+                    @if ( Auth::user()->invoice_logo !=null )
+                        <img src="{{ asset('storage/users/'.Auth::user()->invoice_logo) }}" width="100" class="w-40" style="margin-left:auto">
                     @else
                     <img src="{{ asset('img/invo-mate.png') }}" width="100" class="w-40" style="margin-left:auto">
                 @endif
 
                 @else
-                    @if (Auth::user()->invoice_logo !=null)
-                        <img src="storage/uploads/{{ Auth::user()->invoice_logo }}" class="w-40" width="100" style="margin-left:auto">
+                    @if ( Auth::user()->invoice_logo !=null )
+                        <img src="storage/users/{{ Auth::user()->invoice_logo }}" class="w-40" width="100" style="margin-left:auto">
                      @else
                         <img src="img/invo-mate.png" class="w-40" width="100" style="margin-left:auto">
                     @endif
