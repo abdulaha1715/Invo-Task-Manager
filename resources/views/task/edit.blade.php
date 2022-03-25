@@ -25,17 +25,6 @@
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </div>
-
-                        <div class="flex mt-6">
-                            <div class="flex-1 mr-4">
-                                <label for="price" class="formLabel">Price</label>
-                                <input type="number" name="price" class="formInput" value="{{ $task->price }}">
-
-                                @error('price')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
 
                             <div class="flex-1 mr-4">
                                 <label for="client_id" class="formLabel">Client Name</label>
@@ -50,6 +39,53 @@
 
                                 @error('client_id')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="flex mt-6">
+                            <div class="flex-1 mr-4">
+                                <label for="price" class="formLabel">Price</label>
+                                <input type="number" name="price" class="formInput" value="{{ $task->price }}">
+
+                                @error('price')
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="flex-1 mr-4">
+                                <label for="start_date" class="formLabel">Start Date</label>
+
+                                <input type="date" name="start_date" id="start_date" class="formInput" value="{{ Carbon\Carbon::parse($task->start_date)->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}">
+
+                                @error('start_date')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="flex-1 mr-4">
+                                <label for="end_date" class="formLabel">End Date</label>
+
+                                <input type="date" name="end_date" id="end_date" class="formInput" value="{{ Carbon\Carbon::parse($task->end_date)->format('Y-m-d') }}"  min="{{ now()->format('Y-m-d') }}">
+
+                                @error('end_date')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="flex-1 ml-4">
+                                <label for="priority" class="formLabel">Priority</label>
+
+                                <select name="priority" id="priority" class="formInput">
+                                    <option value="none" {{ $task->priority == 'none' ? 'selected' : '' }}>Select Priority</option>
+                                    <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}>High</option>
+                                    <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}>Medium</option>
+                                    <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}>Low</option>
+                                </select>
+
+
+                                @error('priority')
+                                <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
