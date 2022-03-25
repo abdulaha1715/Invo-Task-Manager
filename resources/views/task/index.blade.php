@@ -113,8 +113,42 @@
                                     <td class="border py-2 w-8 text-center">
                                         {{ $task->id }}
                                     </td>
-                                    <td class="border py-2 text-center">
+                                    <td class="border py-2 text-left px-2 relative">
                                         <a href="{{ route('task.show', $task->slug) }}" class="text-base font-bold hover:text-emerald-600">{{ $task->name }}</a>
+
+                                        @php
+                                            $days_left = Carbon\Carbon::parse($task->end_date)->diffInDays(Carbon\Carbon::now());
+
+                                            if ($days_left == 1) {
+                                                $persen = 90;
+                                                $color = 'bg-red-700';
+                                            }elseif ($days_left < 3 && $days_left == 2 ) {
+                                                $persen = 75;
+                                                $color = 'bg-red-600';
+                                            }elseif ($days_left < 5) {
+                                                $persen = 60;
+                                                $color = 'bg-red-400';
+                                            }elseif ($days_left < 6) {
+                                                $persen = 40;
+                                                $color = 'bg-red-300';
+                                            } else {
+                                                $persen = 0;
+                                                $color = '';
+                                            }
+
+                                        @endphp
+
+                                        <p>{{ $task->start_date }} - {{ $task->end_date }}</p>
+                                        <p>{{ $days_left }}</p>
+
+                                        @if ($task->status == 'complete')
+                                            <div class="absolute h-1 w-full z-10 bg-green-600 left-0 bottom-0"></div>
+                                        @else
+                                            <div class="absolute h-1 z-10 left-0 bottom-0 {{ $color }}"
+                                                style="width: {{ $persen }}%;"></div>
+                                        @endif
+
+                                        <div class="absolute h-1 w-full bg-slate-400 left-0 bottom-0"></div>
                                     </td>
                                     <td class="border py-2 text-center">
                                         <a class="hover:text-emerald-500 text-sm" href="{{ route('invoice.index') }}?client_id={{ $task->client->id }}">{{ $task->client->name }}</a>
