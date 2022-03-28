@@ -16,6 +16,9 @@
         <!-- Scripts -->
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>

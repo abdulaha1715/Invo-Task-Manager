@@ -17,15 +17,17 @@ class TaskFactory extends Factory
      */
     public function definition()
     {
-        $price = [200, 300, 500, 800];
-        $status = ['pending', 'complete'];
-        $name = $this->faker->sentence();
+        $price    = [200, 300, 500, 800];
+        $status   = ['pending', 'complete'];
+        $priority = ['low', 'medium', 'high'];
+        $name     = $this->faker->sentence();
         return [
             'name'        => $name,
             'slug'        => Str::slug($name),
             'description' => $this->faker->sentences(rand(3,5), true),
             'price'       => $price[rand(0, 3)],
             'status'      => $status[rand(0, 1)],
+            'priority'    => $priority[rand(0, 2)],
             'client_id'   => Client::all()->random()->id,
             'end_date'    => Carbon::now()->addDays(rand(2,7))->format("Y-m-d"),
             'user_id'     => User::all()->random()->id,

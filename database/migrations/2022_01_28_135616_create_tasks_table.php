@@ -25,6 +25,7 @@ class CreateTasksTable extends Migration
             $table->enum('status', ['pending', 'complete'])->default('pending');
             $table->enum('priority', ['low', 'medium', 'high'])->default('low');
             $table->longText('description');
+            $table->softDeletes();
             $table->timestamps();
 
 

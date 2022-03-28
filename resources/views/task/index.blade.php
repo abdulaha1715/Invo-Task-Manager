@@ -103,6 +103,7 @@
                                 <th class="border py-2">Client</th>
                                 <th class="border py-2 w-20">Price</th>
                                 <th class="border py-2 w-40">Status</th>
+                                <th class="border py-2 w-40">Priority</th>
                                 <th class="border py-2">Action</th>
                             </tr>
                         </thead>
@@ -119,21 +120,26 @@
                                         @php
                                             $days_left = Carbon\Carbon::parse($task->end_date)->diffInDays(Carbon\Carbon::now());
 
-                                            if ($days_left == 1) {
-                                                $persen = 90;
-                                                $color = 'bg-red-700';
-                                            }elseif ($days_left < 3 && $days_left == 2 ) {
-                                                $persen = 75;
-                                                $color = 'bg-red-600';
-                                            }elseif ($days_left < 5) {
-                                                $persen = 60;
-                                                $color = 'bg-red-400';
-                                            }elseif ($days_left < 6) {
-                                                $persen = 40;
-                                                $color = 'bg-red-300';
+                                            if($task->end_date > Carbon\carbon::now() && $task->status != 'complete') {
+                                                if ($days_left == 1) {
+                                                    $persen = 95;
+                                                    $color = 'bg-red-700';
+                                                }elseif ($days_left < 3) {
+                                                    $persen = 75;
+                                                    $color = 'bg-red-600';
+                                                }elseif ($days_left < 5) {
+                                                    $persen = 60;
+                                                    $color = 'bg-red-400';
+                                                }elseif ($days_left < 6) {
+                                                    $persen = 40;
+                                                    $color = 'bg-red-300';
+                                                } else {
+                                                    $persen = 100;
+                                                    $color = 'bg-green-300';
+                                                }
                                             } else {
-                                                $persen = 0;
-                                                $color = '';
+                                                $persen = 100;
+                                                $color = 'bg-red-500';
                                             }
 
                                         @endphp
@@ -166,6 +172,9 @@
                                                 <button type="submit" class="text-white w-full bg-green-500 px-3 py-1">Complete</button>
                                             </form>
                                         @endif
+                                    </td>
+                                    <td class="border py-2 text-center text-sm capitalize">
+                                        {{ $task->priority }}
                                     </td>
                                     <td class="border py-2 px-2 text-center">
                                         <div class="flex justify-center">
