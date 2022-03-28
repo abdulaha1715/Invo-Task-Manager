@@ -118,19 +118,32 @@
                                         <a href="{{ route('task.show', $task->slug) }}" class="text-base font-bold hover:text-emerald-600">{{ $task->name }}</a>
 
                                         @php
-                                            $days_left = Carbon\Carbon::parse($task->end_date)->diffInDays(Carbon\Carbon::now());
+                                            $startdate = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', Carbon\Carbon::now())->setTimezone('Asia/Dhaka');
+                                            $enddate = $task->end_date;
 
+                                            // Time Left Calculation
+                                            if ($enddate > $startdate) {
+                                                $days = $startdate->diffInDays($enddate);
+                                                $hours = $startdate->copy()->addDays($days)->diffInHours($enddate);
+                                                $minutes = $startdate->copy()->addDays($days)->addHours($hours)->diffInMinutes($enddate);
+                                            } else {
+                                                $days = 0;
+                                                $hours = 0;
+                                                $minutes = 0;
+                                            }
+
+                                            // Bar Color And Percent
                                             if($task->end_date > Carbon\carbon::now() && $task->status != 'complete') {
-                                                if ($days_left == 1) {
+                                                if ($days == 1) {
                                                     $persen = 95;
                                                     $color = 'bg-red-700';
-                                                }elseif ($days_left < 3) {
+                                                }elseif ($days < 3) {
                                                     $persen = 75;
                                                     $color = 'bg-red-600';
-                                                }elseif ($days_left < 5) {
+                                                }elseif ($days < 5) {
                                                     $persen = 60;
                                                     $color = 'bg-red-400';
-                                                }elseif ($days_left < 6) {
+                                                }elseif ($days < 6) {
                                                     $persen = 40;
                                                     $color = 'bg-red-300';
                                                 } else {
@@ -144,8 +157,18 @@
 
                                         @endphp
 
-                                        <p>{{ $task->start_date }} - {{ $task->end_date }}</p>
-                                        <p>{{ $days_left }}</p>
+                                        @if ($task->status == 'pending')
+                                        <div class="counter-class border-t py-1 mt-2 flex justify-end space-x-2 task-{{ $task->id }}"
+                                            data-date="{{ $task->end_date }}">
+                                            @if ($enddate > $startdate && $task->status == 'pending')
+                                                <p>{{ $days != 0 ? $days . ' Days,' : '' }} {{ $days != 0 && $hours != 0 ? $hours . ' Hours' : '' }} {{ $minutes . ' Minutes' }}</p>
+                                            @else
+                                                <div class="text-sm">
+                                                    {{ $task->status == 'pending' ? 'Time Over Due!' : '' }}</div>
+                                            @endif
+
+                                        </div>
+                                        @endif
 
                                         @if ($task->status == 'complete')
                                             <div class="absolute h-1 w-full z-10 bg-green-600 left-0 bottom-0"></div>
