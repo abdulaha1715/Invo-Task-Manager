@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActivityEvent;
+use App\Models\ActivityLog;
 use App\Models\Task;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -75,7 +77,7 @@ class TaskController extends Controller
         $this->taskValidation($request);
 
         try {
-            Task::create([
+            $task = Task::create([
                 'name'        => $request->name,
                 'slug'        => Str::slug($request->name),
                 'price'       => $request->price,
@@ -86,6 +88,8 @@ class TaskController extends Controller
                 'priority'    => $request->priority,
                 'description' => $request->description,
             ]);
+
+            event(new ActivityEvent('Task '.$task->id.' Created!', 'Task'));
 
             return redirect()->route('task.index')->with('success', "Task Created!");
         } catch (\Throwable $th) {
@@ -118,6 +122,7 @@ class TaskController extends Controller
             'task'   => $task,
             'clients' => Client::where('user_id', Auth::user()->id)->get(),
         ]);
+
     }
 
     /**
@@ -164,6 +169,7 @@ class TaskController extends Controller
                 'description' => $request->description,
             ]);
 
+            event(new ActivityEvent('Task '.$task->id.' Updated!', 'Task'));
 
             return redirect()->route('task.index')->with('success', "Task Updated!");
         } catch (\Throwable $th) {
@@ -181,6 +187,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
+        event(new ActivityEvent('Task '.$task->id.' Deleted!', 'Task'));
         return redirect()->route('task.index')->with('success', "Task Deleted");
     }
 

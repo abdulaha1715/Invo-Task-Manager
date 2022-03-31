@@ -74,14 +74,16 @@
 
                     <ul class="bg-cyan-600 text-white rounded-md px-5 py-4  list-none">
 
-                        <li class="flex justify-between items-center border-b py-1">
-                            <span class="text-white w-8/12">John Doe - Client Added</span>
-                            <span
-                                class="text-white text-xs w-3/12 text-right">11 Hour ago</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b py-1">
-                            <span class="text-white w-8/12">No Activity Found!</span>
-                        </li>
+                        @forelse ($activity_logs->slice(0,10) as $activity)
+                            <li class="flex justify-between items-center border-b py-1">
+                                <span class="text-white w-8/12">{{ $activity->message }}</span>
+                                <span class="text-white text-xs w-3/12 text-right">{{ $activity->created_at->diffForHumans() }}</span>
+                            </li>
+                        @empty
+                            <li class="flex justify-between items-center border-b py-1">
+                                <span class="text-white w-8/12">No Activity Found!</span>
+                            </li>
+                        @endforelse
 
                     </ul>
 
