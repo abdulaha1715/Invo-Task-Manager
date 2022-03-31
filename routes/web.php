@@ -27,7 +27,7 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
         $user = User::find(Auth::user()->id);
         return view('dashboard')->with([
             'user'            => $user,
-            'activity_logs'   => ActivityLog::latest()->get(),
+            'activity_logs'   => ActivityLog::where('user_id', Auth::id())->latest()->get(),
             'pending_tasks'   => $user->tasks->where('status', 'pending'),
             'paid_invoices'   => $user->invoices->where('status', 'paid'),
             'unpaid_invoices' => $user->invoices->where('status', 'unpaid'),

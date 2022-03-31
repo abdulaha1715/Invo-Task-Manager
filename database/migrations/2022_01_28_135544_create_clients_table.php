@@ -23,6 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('avatar')->nullable();
             $table->foreignId('user_id');
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->integer('yearly_email')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
