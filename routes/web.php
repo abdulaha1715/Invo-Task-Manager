@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,9 @@ Route::prefix('/')->middleware(['auth'])->group(function () {
             'unpaid_invoices' => $user->invoices->where('status', 'unpaid'),
         ]);
     })->name('dashboard');
+
+    // Users Route
+    Route::resource('users', UserController::class);
 
     // Client Route
     Route::resource('client', ClientController::class);

@@ -26,18 +26,20 @@ class DatabaseSeeder extends Seeder
             'phone'     => '01715-246330',
             'country'   => 'Bangladesh',
             'password'  => bcrypt('01918786189'),
-            'thumbnail' => 'https://picsum.photos/300'
+            'thumbnail' => 'https://picsum.photos/300',
+            'role'      => 'admin'
         ]);
 
-        // User::create([
-        //     'name'      => 'John Doe',
-        //     'email'     => 'demo@gmail.com',
-        //     'company'   => 'Abnipes Network',
-        //     'phone'     => '01000-000000',
-        //     'country'   => 'Bangladesh',
-        //     'password'  => bcrypt('123'),
-        //     'thumbnail' => 'https://picsum.photos/300'
-        // ]);
+        User::create([
+            'name'      => 'John Doe',
+            'email'     => 'demo@gmail.com',
+            'company'   => 'Abnipes Network',
+            'phone'     => '01000-000000',
+            'country'   => 'Bangladesh',
+            'password'  => bcrypt('123'),
+            'thumbnail' => 'https://picsum.photos/300',
+            'role'      => 'admin'
+        ]);
 
         Client::factory(10)->create();
 
