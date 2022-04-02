@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 
 // Back-end
-Route::prefix('/')->middleware(['auth'])->group(function () {
+Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', function () {
         $user = User::find(Auth::user()->id);
