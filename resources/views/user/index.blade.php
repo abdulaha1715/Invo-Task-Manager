@@ -73,7 +73,7 @@
                                             <a href="{{ route('users.edit', $user) }}"
                                                 class="border-2 bg-purple-500 text-white hover:bg-transparent hover:text-black transition-all duration-300 px-3 py-1 mr-2">Edit</a>
 
-                                            <form action="{{ route('users.destroy', $user) }}" method="POST"
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST"
                                                 onsubmit="return confirm('Do you really want to delete?');">
                                                 @csrf
                                                 @method('DELETE')

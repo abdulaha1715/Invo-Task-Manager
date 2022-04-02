@@ -34,13 +34,14 @@ class UserController extends Controller
     }
 
     /**
-     * User data Validation.
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function userValidation(Request $request)
+    public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name'     => ['required', 'max:255', 'string'],
             'email'    => ['required', 'max:255', 'string', 'email'],
@@ -50,18 +51,6 @@ class UserController extends Controller
             'role'     => ['required', 'max:255', 'string', 'not_in:none'],
             'password' => ['required', 'max:255', 'string', 'confirmed'],
         ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // dd($request->all());
-        $this->userValidation($request);
 
         try {
             $user = User::create([
@@ -76,7 +65,7 @@ class UserController extends Controller
 
             $user->markEmailAsVerified();
 
-            event(new ActivityEvent('User '.$user->id.' Created!', 'Task', Auth::id()));
+            event(new ActivityEvent('User '.$user->name.' Created!', 'User', Auth::id()));
 
             return redirect()->route('users.index')->with('success', "User Created!");
         } catch (\Throwable $th) {
@@ -98,12 +87,15 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('user.edit')->with([
+            'user'      => $user,
+            'countries' => $this->countries_list,
+        ]);
     }
 
     /**
@@ -113,20 +105,56 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name'     => ['required', 'max:255', 'string'],
+            'email'    => ['required', 'max:255', 'string', 'email'],
+            'company'  => ['max:255', 'string'],
+            'phone'    => ['max:255', 'string'],
+            'country'  => ['max:255', 'string', 'not_in:none'],
+            'role'     => ['required', 'max:255', 'string', 'not_in:none'],
+        ]);
+
+        try {
+            $user->update([
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'company'  => $request->company,
+                'phone'    => $request->phone,
+                'country'  => $request->country,
+                'role'     => $request->role,
+            ]);
+
+            event(new ActivityEvent('User '.$user->name.' Updated!', 'User', Auth::id()));
+
+            return redirect()->route('users.index')->with('success', "User Updated!");
+        } catch (\Throwable $th) {
+            return redirect()->route('users.index')->with('error', $th->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        if (Auth::user()->role == 'admin') {
+            if ($id == Auth::id()) {
+                return redirect()->route('users.index')->with('error', 'User is logged in, can\'t delete');
+            } else {
+                $user_delete_data = User::find($id);
+                $user_delete_data->delete();
+                // Event
+                event(new ActivityEvent('User ' . $user_delete_data->name . ' Deleted', 'User', Auth::id()));
+                return redirect()->route('users.index')->with('success', 'User Deleted');
+            }
+        } else {
+            return redirect()->route('users.index')->with('error', 'You\'re not authorize to delete');
+        }
     }
 
     public $countries_list = array(

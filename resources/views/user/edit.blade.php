@@ -2,9 +2,9 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Edit Task') }}
+                {{ __('Edit User') }}
             </h2>
-            <a href="{{ route('task.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
+            <a href="{{ route('users.index') }}"class="border border-emerald-400 px-3 py-1">Back</a>
         </div>
     </x-slot>
 
@@ -12,14 +12,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('task.update', $task->id) }}" method="POST" enctype="multipart/form-data">
+
+                    <form action="{{ route('users.update', $user) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
                                 <label for="name" class="formLabel">Name</label>
-                                <input type="text" name="name" class="formInput" value="{{ $task->name }}">
+                                <input type="text" name="name" class="formInput" value="{{ $user->name }}">
 
                                 @error('name')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -27,83 +28,67 @@
                             </div>
 
                             <div class="flex-1 mr-4">
-                                <label for="client_id" class="formLabel">Client Name</label>
+                                <label for="email" class="formLabel">Email</label>
+                                <input type="text" name="email" class="formInput" value="{{ $user->email }}">
 
-                                <select name="client_id" id="client_id" class="formInput">
-                                    <option value="none">Select Client</option>
-                                    @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}" {{ $task->client_id == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
-                                    @endforeach
-
-                                </select>
-
-                                @error('client_id')
+                                @error('email')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </div>
 
+                        </div>
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
-                                <label for="price" class="formLabel">Price</label>
-                                <input type="number" name="price" class="formInput" value="{{ $task->price }}">
+                                <label for="company" class="formLabel">Company</label>
+                                <input type="text" name="company" class="formInput" value="{{ $user->company }}">
 
-                                @error('price')
+                                @error('company')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="flex-1 mr-4">
-                                <label for="start_date" class="formLabel">Start Date</label>
+                                <label for="phone" class="formLabel">Phone</label>
+                                <input type="text" name="phone" class="formInput" value="{{ $user->phone }}">
 
-                                <input type="date" name="start_date" id="start_date" class="formInput" value="{{ Carbon\Carbon::parse($task->start_date)->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}">
-
-                                @error('start_date')
-                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @error('phone')
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="flex-1 mr-4">
-                                <label for="end_date" class="formLabel">End Date</label>
+                                <label for="country" class="formLabel">Country</label>
 
-                                <input type="date" name="end_date" id="end_date" class="formInput" value="{{ Carbon\Carbon::parse($task->end_date)->format('Y-m-d') }}"  min="{{ now()->format('Y-m-d') }}">
+                                <select name="country" id="country" class="formInput">
+                                    <option value="none">Select Country</option>
 
-                                @error('end_date')
-                                <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div class="flex-1 ml-4">
-                                <label for="priority" class="formLabel">Priority</label>
-
-                                <select name="priority" id="priority" class="formInput">
-                                    <option value="none" {{ $task->priority == 'none' ? 'selected' : '' }}>Select Priority</option>
-                                    <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}>High</option>
-                                    <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}>Medium</option>
-                                    <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}>Low</option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country }}" {{ $user->country == $country ? 'selected': '' }}>{{ $country }}</option>
+                                    @endforeach
                                 </select>
 
-
-                                @error('priority')
-                                <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="flex mt-6 justify-between">
-                            <div class="flex-1">
-                                <label for="description" class="formLabel">Description</label>
-
-                                <textarea name="description" id="description" class="formInput" rows="10">{{ $task->description }}</textarea>
-
-                                @error('description')
+                                @error('country')
                                     <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            <div class="flex-1 mr-4">
+                                <label for="role" class="formLabel">User Role</label>
+                                <select name="role" id="role" class="formInput">
+                                    <option value="none" {{ old('role') == 'none' ? 'selected' : '' }}>Select Role</option>
+                                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                                </select>
+
+                                @error('role')
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                         </div>
 
                         <div class="mt-6">
-                            <button type="submit" class="px-8 py-2 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Updated</button>
+                            <button type="submit" class="px-8 py-2 text-base uppercase bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all">Update</button>
                         </div>
 
                     </form>

@@ -71,19 +71,6 @@
                                 @enderror
                             </div>
 
-                            <div class="flex-1 mr-4">
-                                <label for="role" class="formLabel">User Role</label>
-                                <select name="role" id="role" class="formInput">
-                                    <option value="none" {{ old('role') == 'none' ? 'selected' : '' }}>Select Role</option>
-                                    <option value="active" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                    <option value="inactive" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                                </select>
-
-                                @error('role')
-                                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                                @enderror
-                            </div>
-
                         </div>
                         <div class="flex mt-6">
                             <div class="flex-1 mr-4">
@@ -93,6 +80,7 @@
                                 <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
+
                             <div class="flex-1 mr-4">
                                 <label for="password_confirmation" class="formLabel">Confirm Password</label>
                                 <input type="password" name="password_confirmation" class="formInput" value="{{ old('password_confirmation') }}">
@@ -100,17 +88,17 @@
                                 <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="flex-1 mr-4">
-                                <label for="role" class="formLabel">Role</label>
 
+                            <div class="flex-1 mr-4">
+                                <label for="role" class="formLabel">User Role</label>
                                 <select name="role" id="role" class="formInput">
-                                    <option value="none">Select Role</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
+                                    <option value="none" {{ old('role') == 'none' ? 'selected' : '' }}>Select Role</option>
+                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
                                 </select>
 
                                 @error('role')
-                                <p class="text-red-700 text-sm">{{ $message }}</p>
+                                    <p class="text-red-700 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
 

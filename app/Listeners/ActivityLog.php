@@ -7,7 +7,7 @@ use App\Models\ActivityLog as ModelsActivityLog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Auth;
 
-class ActivityLog implements ShouldQueue
+class ActivityLog
 {
     /**
      * Create the event listener.
