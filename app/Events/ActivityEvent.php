@@ -14,17 +14,18 @@ class ActivityEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message, $model;
+    public $message, $model, $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message, $model)
+    public function __construct($message, $model, $user)
     {
         $this->message = $message;
         $this->model   = $model;
+        $this->user    = $user;
     }
 
     /**

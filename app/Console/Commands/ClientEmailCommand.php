@@ -2,8 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ActivityEvent;
+use App\Mail\ClientYearlyEmail;
 use App\Models\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class ClientEmailCommand extends Command
 {
@@ -45,7 +48,10 @@ class ClientEmailCommand extends Command
 
             if ( $joined >= 1 && $client->yearly_email != $joined ) {
                 // Todo : send email to client
+
                 info('Email  send');
+                Mail::send(new ClientYearlyEmail($client));
+                event(new ActivityEvent('Email send to '.$client->name, 'Client', $client->user_id));
                 $client->yearly_email = $joined;
                 $client->save();
             }

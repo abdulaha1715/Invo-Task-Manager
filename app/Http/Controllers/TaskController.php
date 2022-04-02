@@ -89,7 +89,7 @@ class TaskController extends Controller
                 'description' => $request->description,
             ]);
 
-            event(new ActivityEvent('Task '.$task->id.' Created!', 'Task'));
+            event(new ActivityEvent('Task '.$task->id.' Created!', 'Task', Auth::id()));
 
             return redirect()->route('task.index')->with('success', "Task Created!");
         } catch (\Throwable $th) {
@@ -169,7 +169,7 @@ class TaskController extends Controller
                 'description' => $request->description,
             ]);
 
-            event(new ActivityEvent('Task '.$task->id.' Updated!', 'Task'));
+            event(new ActivityEvent('Task '.$task->id.' Updated!', 'Task', Auth::id()));
 
             return redirect()->route('task.index')->with('success', "Task Updated!");
         } catch (\Throwable $th) {
@@ -187,7 +187,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
-        event(new ActivityEvent('Task '.$task->id.' Deleted!', 'Task'));
+        event(new ActivityEvent('Task '.$task->id.' Deleted!', 'Task', Auth::id()));
         return redirect()->route('task.index')->with('success', "Task Deleted");
     }
 
